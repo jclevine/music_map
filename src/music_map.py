@@ -94,7 +94,9 @@ class MusicMap(object):
                 if not matches:
                     matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
 
-                artist = MusicMap.sanitize_string(matches.group(1))
+                artist = MusicMap.sanitize_string(matches.group(1),
+                                                  remove_the=True,
+                                                  remove_and=True)
                 album = MusicMap.sanitize_string(matches.group(2))
                 track = MusicMap.sanitize_string(matches.group(3))
                 title = MusicMap.sanitize_string(matches.group(4))
@@ -151,7 +153,6 @@ class MusicMap(object):
         if self._index >= len(self._all_tracks):
             raise StopIteration
         else:
-
             return self._all_tracks[self._index]
 
 
