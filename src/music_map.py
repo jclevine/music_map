@@ -36,7 +36,6 @@ class MusicMap(object):
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
         self._debug = options.debug
-#        self._playlist_1 = os.path.join( self._playlists_dir, options.playlist_1 )
 
     # TODO: !3 Logging ini file?
     def _handle_logging(self, debug):
@@ -68,7 +67,6 @@ class MusicMap(object):
         unknow_error_handler = logging.FileHandler("unknown_error.log", mode="w")
         unknow_error_handler.setLevel(logging.DEBUG)
         self._unknown_error.addHandler(unknow_error_handler)
-
 
     def _validate(self):
         try:
@@ -124,6 +122,7 @@ class MusicMap(object):
 
         return music_map
 
+    # TODO: !3 Put into a utility function somewhere.
     @staticmethod
     def sanitize_string(s):
         s = s.lower()
