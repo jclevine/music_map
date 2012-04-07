@@ -9,10 +9,8 @@ import re
 class MusicMap(object):
 
 
-    OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- ([^\.]+)\.mp3"
-    OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE_WITH_PERIODS = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3"
-    OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- ([^\.]+)\.mp3"
-
+    OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3"
+    OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3"
 
 
     def __init__(self):
@@ -47,6 +45,7 @@ class MusicMap(object):
         console_handler = logging.StreamHandler()
         file_handler = logging.FileHandler("music_map.log", mode='w')
         file_handler.setLevel(logging.DEBUG)
+
         if debug:
             console_handler.setLevel(logging.DEBUG)
         else:
@@ -54,6 +53,12 @@ class MusicMap(object):
 
         self._logger.addHandler(console_handler)
         self._logger.addHandler(file_handler)
+
+        self._unparseable = logging.getLogger("unparseable")
+        self._unparseable.setLevel(logging.DEBUG)
+        unparseable_handler = logging.FileHandler("unparseable.log", mode="w")
+        unparseable_handler.setLevel(logging.DEBUG)
+        self._unparseable.addHandler(unparseable_handler)
 
 
     def _validate(self):
@@ -87,9 +92,12 @@ class MusicMap(object):
                                            track=matches.group(3),
                                            title=matches.group(4),
                                            line_sep=os.linesep))
+
             except Exception as e:
                 self._logger.exception(e)
-                exit("Error parsing info out of '{0}'".format(song))
+                self._logger.error("Error parsing info out of '{0}'. Continuing.".format(song))
+                self._unparseable.error(song)
+                # TODO: !3 Manual way for a user to parse out the data?s
         return {}
 
 def main():
