@@ -112,11 +112,7 @@ class MusicMap(object):
                                            line_sep=os.linesep))
 
                 music_map[artist].setdefault(album, {})
-                #music_map[artist][album].setdefault(track, str)
                 music_map[artist][album][track] = title
-                #musicalbum
-                #music_map[artist][track].setdefault(album, [])
-                #music_map[artist][album][track].append((track, title))
 
             except AttributeError as ae:
                 self._logger.exception(ae)
