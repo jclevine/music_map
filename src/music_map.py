@@ -4,6 +4,7 @@ from optparse import OptionParser
 import logging
 import os
 import re
+from collections import defaultdict
 
 
 class MusicMap(object):
@@ -54,11 +55,18 @@ class MusicMap(object):
         self._logger.addHandler(console_handler)
         self._logger.addHandler(file_handler)
 
+        # TODO: !3 Factory for logs?
         self._unparseable = logging.getLogger("unparseable")
         self._unparseable.setLevel(logging.DEBUG)
         unparseable_handler = logging.FileHandler("unparseable.log", mode="w")
         unparseable_handler.setLevel(logging.DEBUG)
         self._unparseable.addHandler(unparseable_handler)
+
+        self._unknown_error = logging.getLogger("unknown_error")
+        self._unknown_error.setLevel(logging.DEBUG)
+        unknow_error_handler = logging.FileHandler("unknown_error.log", mode="w")
+        unknow_error_handler.setLevel(logging.DEBUG)
+        self._unknown_error.addHandler(unknow_error_handler)
 
 
     def _validate(self):
@@ -76,6 +84,7 @@ class MusicMap(object):
         return songs
 
     def _build_music_map(self):
+        music_map = defaultdict(dict)
         for song in self._song_set:
             # TODO: !3 Better place to define regexes?
             # TODO: !3 Some utility to grab regex matches to a dictionary?
@@ -83,22 +92,39 @@ class MusicMap(object):
                 matches = re.match(self.OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE, song)
                 if not matches:
                     matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
+
+                artist = matches.group(1)
+                album = matches.group(2)
+                track = matches.group(3)
+                title = matches.group(4)
+
                 self._logger.debug("Artist: {artist}{line_sep}" \
                                    "Album: {album}{line_sep}" \
                                    "Track #: {track}{line_sep}" \
                                    "Title: {title}{line_sep}{line_sep}"
-                                   .format(artist=matches.group(1),
-                                           album=matches.group(2),
-                                           track=matches.group(3),
-                                           title=matches.group(4),
+                                   .format(artist=artist,
+                                           album=album,
+                                           track=track,
+                                           title=title,
                                            line_sep=os.linesep))
 
-            except Exception as e:
-                self._logger.exception(e)
+                # TODO: !3 More pythonic way to do this?
+                if album in music_map[artist]:
+                    music_map[artist][album].append((track, title))
+                else:
+                    music_map[artist][album] = [(track, title)]
+
+            except AttributeError as ae:
+                self._logger.exception(ae)
                 self._logger.error("Error parsing info out of '{0}'. Continuing.".format(song))
                 self._unparseable.error(song)
                 # TODO: !3 Manual way for a user to parse out the data?s
-        return {}
+            except Exception as e:
+                self._logger.exception(e)
+                self._logger.error("Unknown error on '{0}'. Continuing.".format(song))
+                self._unparseable.error(song)
+
+        return music_map
 
 def main():
     music_map = MusicMap()
