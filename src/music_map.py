@@ -6,7 +6,6 @@ import os
 import re
 from collections import defaultdict
 import unicodedata
-from itertools import chain
 
 
 class MusicMap(object):
@@ -23,6 +22,8 @@ class MusicMap(object):
         self._validate()
         self._song_set = self._build_song_set()
         self._music_map = self._build_music_map()
+        self._all_tracks = self._all_tracks()
+        self._index = -1
 
 
     def _parse_options(self):
@@ -141,7 +142,24 @@ class MusicMap(object):
         return self._music_map[ss(artist)][ss(album)][ss(track)]
 
 
+    def __iter__(self):
+        return self
+
+
+    def __next__(self):
+        self._index = self._index + 1
+        if self._index >= len(self._all_tracks):
+            raise StopIteration
+        else:
+
+            return self._all_tracks[self._index]
+
+
     def items(self):
+        """
+        A generator of all the tracks, returning each as a map with each 
+        'part' of the track: artist, album, track, and title.
+        """
         for artist, albums in self._music_map.items():
             for album, tracks in albums.items():
                 for track, title in tracks.items():
@@ -150,11 +168,14 @@ class MusicMap(object):
                            'track': track,
                            'title': title}
 
+    def _all_tracks(self):
+        return [track for track in self.items()]
+
 
 def main():
     music_map = MusicMap()
-    for item in music_map.items():
-        print(item)
+    for track in music_map:
+        print(track)
 
 
 if __name__ == "__main__":
