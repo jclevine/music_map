@@ -126,19 +126,64 @@ class MusicMap(object):
 
         return music_map
 
+
     # TODO: !3 Put into a utility function somewhere.
     @staticmethod
-    def sanitize_string(s):
+    def sanitize_string(s, remove_the=False, remove_and=False):
         s = s.lower()
         s = s.replace("_", " ")
         s = s.replace(".", "")
+        if remove_the:
+            s = s.replace(" the", "")
+            s = s.replace("the ", "")
+
+        if remove_and:
+            s = s.replace("& ", "")
+            s = s.replace(" &", "")
+            s = s.replace("and ", "")
+            s = s.replace(" and", "")
         s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
         return s
 
-    def find(self, artist, album, track):
+    def get_by_track(self, artist, album, track):
         ss = MusicMap.sanitize_string
-        return self._music_map[ss(artist)][ss(album)][ss(track)]
+        if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
+            raise KeyError("Unable to find artist {0}".format(artist))
+        albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
 
+        if ss(album) not in albums:
+            raise KeyError("Unable to find album {0} from artist {1}"
+                           .format(album, artist))
+        tracks = albums[ss(album)]
+
+        if ss(track) not in tracks:
+            raise KeyError("Unable to find track {track} from album {album} " \
+                           "from artist {artist}"
+                           .format(track=track,
+                                   album=album,
+                                   artist=artist))
+        return albums[ss(album)][ss(track)]
+
+
+    def get_by_title(self, artist, album, title):
+        ss = MusicMap.sanitize_string
+        if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
+            raise KeyError("Unable to find artist {0}".format(artist))
+        albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
+
+        if ss(album) not in albums:
+            raise KeyError("Unable to find album {0} from artist {1}"
+                           .format(album, artist))
+        tracks = albums[ss(album)]
+
+        for _, existing_title in tracks.items():
+            if ss(title) == existing_title:
+                return existing_title
+        raise KeyError("Unable to find title {title} from album {album} " \
+                       "from artist {artist}"
+                       .format(title=title,
+                               album=album,
+                               artist=artist))
 
     def __iter__(self):
         return self
@@ -171,8 +216,9 @@ class MusicMap(object):
 
 def main():
     music_map = MusicMap()
-    for track in music_map:
-        print(track)
+    print(music_map.get_by_track('Siouxsie and the Banshees', 'Kaleidoscope', '05'))
+    print(music_map.get_by_title('Siouxsie and the Banshees', 'Kaleidoscope', 'Happy House'))
+    print(music_map.get_by_title('Siouxsie and the Banshees', 'Kaleidoscope', 'Happier House'))
 
 
 if __name__ == "__main__":
