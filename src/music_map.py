@@ -5,6 +5,7 @@ import logging
 import os
 import re
 from collections import defaultdict
+import unicodedata
 
 
 class MusicMap(object):
@@ -15,7 +16,7 @@ class MusicMap(object):
 
 
     def __init__(self):
-        self.parse_options()
+        self._parse_options()
         self._handle_logging(self._debug)
         self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
         self._validate()
@@ -23,7 +24,7 @@ class MusicMap(object):
         self._music_map = self._build_music_map()
 
 
-    def parse_options(self):
+    def _parse_options(self):
         parser = OptionParser()
         parser.add_option("-p", "--playlist", dest="playlist_loc",
                            help="Location of the playlist you want to make a " \
@@ -93,10 +94,10 @@ class MusicMap(object):
                 if not matches:
                     matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
 
-                artist = matches.group(1)
-                album = matches.group(2)
-                track = matches.group(3)
-                title = matches.group(4)
+                artist = MusicMap.sanitize_string(matches.group(1))
+                album = MusicMap.sanitize_string(matches.group(2))
+                track = MusicMap.sanitize_string(matches.group(3))
+                title = MusicMap.sanitize_string(matches.group(4))
 
                 self._logger.debug("Artist: {artist}{line_sep}" \
                                    "Album: {album}{line_sep}" \
@@ -122,6 +123,15 @@ class MusicMap(object):
                 self._unparseable.error(song)
 
         return music_map
+
+    @staticmethod
+    def sanitize_string(s):
+        s = s.lower()
+        s = s.replace("_", "")
+        s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
+        return s
+
+
 
 def main():
     music_map = MusicMap()
