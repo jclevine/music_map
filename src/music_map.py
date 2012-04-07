@@ -108,11 +108,8 @@ class MusicMap(object):
                                            title=title,
                                            line_sep=os.linesep))
 
-                # TODO: !3 More pythonic way to do this?
-                if album in music_map[artist]:
-                    music_map[artist][album].append((track, title))
-                else:
-                    music_map[artist][album] = [(track, title)]
+                music_map[artist].setdefault(album, [])
+                music_map[artist][album].append((track, title))
 
             except AttributeError as ae:
                 self._logger.exception(ae)
