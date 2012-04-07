@@ -6,6 +6,7 @@ import os
 import re
 from collections import defaultdict
 import unicodedata
+from itertools import chain
 
 
 class MusicMap(object):
@@ -107,8 +108,12 @@ class MusicMap(object):
                                            title=title,
                                            line_sep=os.linesep))
 
-                music_map[artist].setdefault(album, [])
-                music_map[artist][album].append((track, title))
+                music_map[artist].setdefault(album, {})
+                #music_map[artist][album].setdefault(track, str)
+                music_map[artist][album][track] = title
+                #musicalbum
+                #music_map[artist][track].setdefault(album, [])
+                #music_map[artist][album][track].append((track, title))
 
             except AttributeError as ae:
                 self._logger.exception(ae)
@@ -126,14 +131,30 @@ class MusicMap(object):
     @staticmethod
     def sanitize_string(s):
         s = s.lower()
-        s = s.replace("_", "")
+        s = s.replace("_", " ")
+        s = s.replace(".", "")
         s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
         return s
 
+    def find(self, artist, album, track):
+        ss = MusicMap.sanitize_string
+        return self._music_map[ss(artist)][ss(album)][ss(track)]
+
+
+    def items(self):
+        for artist, albums in self._music_map.items():
+            for album, tracks in albums.items():
+                for track, title in tracks.items():
+                    yield {'artist': artist,
+                           'album': album,
+                           'track': track,
+                           'title': title}
 
 
 def main():
     music_map = MusicMap()
+    for item in music_map.items():
+        print(item)
 
 
 if __name__ == "__main__":
