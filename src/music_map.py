@@ -32,7 +32,7 @@ class MusicMap(object):
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
         parser.add_option("--db", dest="db_loc", help="Location of the DB",
-                          metavar="DB", default="music_map")
+                          metavar="DB", default="music_map.sqlite")
 
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
