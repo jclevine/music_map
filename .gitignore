@@ -3,3 +3,4 @@
 .pydevproject
 *.log
 *.pyc
+*.sqlite
