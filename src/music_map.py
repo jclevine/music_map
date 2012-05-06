@@ -113,7 +113,7 @@ class MusicMap(object):
             s = s.replace("and ", "")
             s = s.replace(" and", "")
         # Change special characters into their somewhat normal equivalent
-        s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
+        s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('utf-8')
         return s
 
     def get_by_track(self, artist, album, track):
