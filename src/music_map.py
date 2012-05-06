@@ -1,18 +1,16 @@
 #!/usr/bin/python3.1
 
+# TODO: !3 Replace OptionParser with argparse
 from optparse import OptionParser
 import logging
 import os
 import re
 from collections import defaultdict
 import unicodedata
+from song import Song
 
 
 class MusicMap(object):
-
-
-    OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3"
-    OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3"
 
 
     def __init__(self):
@@ -90,29 +88,9 @@ class MusicMap(object):
             # TODO: !3 Better place to define regexes?
             # TODO: !3 Some utility to grab regex matches to a dictionary?
             try:
-                matches = re.match(self.OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE, song)
-                if not matches:
-                    matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
-
-                artist = MusicMap.sanitize_string(matches.group(1),
-                                                  remove_the=True,
-                                                  remove_and=True)
-                album = MusicMap.sanitize_string(matches.group(2))
-                track = MusicMap.sanitize_string(matches.group(3))
-                title = MusicMap.sanitize_string(matches.group(4))
-
-                self._logger.debug("Artist: {artist}{line_sep}" \
-                                   "Album: {album}{line_sep}" \
-                                   "Track #: {track}{line_sep}" \
-                                   "Title: {title}{line_sep}{line_sep}"
-                                   .format(artist=artist,
-                                           album=album,
-                                           track=track,
-                                           title=title,
-                                           line_sep=os.linesep))
-
-                music_map[artist].setdefault(album, {})
-                music_map[artist][album][track] = title
+                song_obj = Song(song)
+                music_map[song_obj.artist].setdefault(song_obj.album, {})
+                music_map[song_obj.artist][song_obj.album][song_obj.track] = (song_obj.title, song)
 
             except AttributeError as ae:
                 self._logger.exception(ae)
@@ -125,7 +103,6 @@ class MusicMap(object):
                 self._unparseable.error(song)
 
         return music_map
-
 
     # TODO: !3 Put into a utility function somewhere.
     @staticmethod
@@ -142,6 +119,7 @@ class MusicMap(object):
             s = s.replace(" &", "")
             s = s.replace("and ", "")
             s = s.replace(" and", "")
+        # Change special characters into their somewhat normal equivalent
         s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore')
         return s
 
