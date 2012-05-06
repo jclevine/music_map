@@ -2,10 +2,11 @@ import sqlite3
 
 
 # TODO: !3 Error handling.
+# TODO: !3 Use sqlite cursor.executescript
 if __name__ == "__main__":
-    db = sqlite3.connect('music_map.sqlite')
+    conn = sqlite3.connect('music_map.sqlite')
 
-    c = db.cursor()
+    c = conn.cursor()
 
     #===========================================================================
     # SONG TABLE

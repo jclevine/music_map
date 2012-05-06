@@ -8,7 +8,10 @@ class Song(object):
     OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3"
 
     # TODO: !3 Throw more specific exceptions
+    # TODO: !2 Have to_map function that will prepare song for insertion into table
     def __init__(self, song):
+        self._original = song
+
         matches = re.match(self.OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE, song)
         if not matches:
             matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)

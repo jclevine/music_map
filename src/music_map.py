@@ -8,6 +8,7 @@ from collections import defaultdict
 import unicodedata
 from song import Song
 import sqlite3
+from music_map_db_handler import MusicMapDBHandler
 
 
 class MusicMap(object):
@@ -16,7 +17,8 @@ class MusicMap(object):
         self._parse_options()
         self._handle_logging(self._debug)
         self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
-        self._db = sqlite3.connect(self._db_loc)
+        self._conn = sqlite3.connect(self._db_loc)
+        self._db_handler = MusicMapDBHandler(self._conn)
         self._validate()
         self._song_set = self._build_song_set()
         self._music_map = self._build_music_map()
@@ -28,6 +30,9 @@ class MusicMap(object):
         parser.add_option("-p", "--playlist", dest="playlist_loc",
                            help="Location of the playlist you want to make a " \
                                 "map for.", metavar="PLAYLIST")
+        parser.add_option("--music_root", dest="music_root",
+                          help="The full path to the root of the music tree " \
+                               "inside the playlist.", metavar="ROOT_PATH")
         parser.add_option("-d", "--debug", action="store_true", dest="debug",
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
@@ -36,6 +41,7 @@ class MusicMap(object):
 
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
+        self._music_root = options.music_root
         self._db_loc = options.db_loc
         self._debug = options.debug
 
@@ -88,10 +94,10 @@ class MusicMap(object):
     def _build_music_map(self):
         music_map = defaultdict(dict)
         for song in self._song_set:
-            # TODO: !3 Better place to define regexes?
-            # TODO: !3 Some utility to grab regex matches to a dictionary?
             try:
                 song_obj = Song(song)
+                self._db_handler.insert_song(song_obj, self._music_root)
+
                 music_map[song_obj.artist].setdefault(song_obj.album, {})
                 music_map[song_obj.artist][song_obj.album][song_obj.track] = \
                     (song_obj.title, song)
