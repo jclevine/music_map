@@ -4,14 +4,12 @@
 from optparse import OptionParser
 import logging
 import os
-import re
 from collections import defaultdict
 import unicodedata
 from song import Song
 
 
 class MusicMap(object):
-
 
     def __init__(self):
         self._parse_options()
@@ -22,7 +20,6 @@ class MusicMap(object):
         self._music_map = self._build_music_map()
         self._all_tracks = self._all_tracks()
         self._index = -1
-
 
     def _parse_options(self):
         parser = OptionParser()
@@ -73,7 +70,8 @@ class MusicMap(object):
             open(self._playlist_loc)
         except IOError as ioe:
             self._logger.exception(ioe)
-            exit("The playlist you wanted to map does not exist: {0}".format(self._playlist_loc))
+            exit("The playlist you wanted to map does not exist: {0}"
+                 .format(self._playlist_loc))
         self._logger.info("Using the playlist '{0}'.".format(self._playlist_loc))
 
     def _build_song_set(self):
@@ -90,16 +88,19 @@ class MusicMap(object):
             try:
                 song_obj = Song(song)
                 music_map[song_obj.artist].setdefault(song_obj.album, {})
-                music_map[song_obj.artist][song_obj.album][song_obj.track] = (song_obj.title, song)
+                music_map[song_obj.artist][song_obj.album][song_obj.track] = \
+                    (song_obj.title, song)
 
             except AttributeError as ae:
                 self._logger.exception(ae)
-                self._logger.error("Error parsing info out of '{0}'. Continuing.".format(song))
+                self._logger.error("Error parsing info out of '{0}'. Continuing."
+                                   .format(song))
                 self._unparseable.error(song)
                 # TODO: !3 Manual way for a user to parse out the data?s
             except Exception as e:
                 self._logger.exception(e)
-                self._logger.error("Unknown error on '{0}'. Continuing.".format(song))
+                self._logger.error("Unknown error on '{0}'. Continuing."
+                                   .format(song))
                 self._unparseable.error(song)
 
         return music_map
@@ -142,7 +143,6 @@ class MusicMap(object):
                                    artist=artist))
         return albums[ss(album)][ss(track)]
 
-
     def get_by_title(self, artist, album, title):
         ss = MusicMap.sanitize_string
         if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
@@ -166,7 +166,6 @@ class MusicMap(object):
     def __iter__(self):
         return self
 
-
     def __next__(self):
         self._index = self._index + 1
         if self._index >= len(self._all_tracks):
@@ -174,10 +173,9 @@ class MusicMap(object):
         else:
             return self._all_tracks[self._index]
 
-
     def items(self):
         """
-        A generator of all the tracks, returning each as a map with each 
+        A generator of all the tracks, returning each as a map with each
         'part' of the track: artist, album, track, and title.
         """
         for artist, albums in self._music_map.items():
