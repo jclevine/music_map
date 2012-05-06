@@ -97,4 +97,4 @@ class Song(object):
                         orig_artist=self.artist,
                         orig_album=self.album,
                         orig_track=self.track,
-                        orig_title=self.title,
+                        orig_title=self.title))

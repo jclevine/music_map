@@ -8,15 +8,16 @@ class MusicMapDBHandler(object):
 
     def insert_song(self, song, music_root):
         # TODO: !1 Figure out when/where to close cursors/connections.
-        c = self._conn.cursor()
-        if not self._song_in_song_db(c, song):
+        new_song_id = None
+        if not self._song_in_song_table(song):
             query = """
                     INSERT INTO song
                               ( artist_key
                               , album_key
                               , track_key
                               , title_key)
-                         VALUES ?
+                         VALUES
+                              ( ?
                               , ?
                               , ?
                               , ?
@@ -27,19 +28,20 @@ class MusicMapDBHandler(object):
                       song.track,
                       song.title)
             try:
+                c = self._conn.cursor()
                 c.execute(query, values)
                 new_song_id = c.lastrowid
             except Exception:
                 self._conn.rollback()
             finally:
-                c.close()
                 self._conn.commit()
 
         # If one has been inserted, we need to populate the other tables, as well.
         if new_song_id:
             self._insert_into_music_map(new_song_id, song, music_root)
 
-    def _song_in_cursor_db(self, c, song):
+    def _song_in_song_table(self, song):
+        c = self._conn.cursor()
         query = """
                 SELECT COUNT(*)
                   FROM song s
@@ -53,7 +55,10 @@ class MusicMapDBHandler(object):
                   song.track,
                   song.title)
         rs = c.execute(query, values)
-        return rs.fetchone() == 1
+        num_rows = rs.fetchone()
+        rs.close()
+        c.close()
+        return num_rows == 1
 
     def _insert_into_music_map(self, new_song_id, song, music_root):
         query = """

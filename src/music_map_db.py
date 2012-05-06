@@ -3,6 +3,7 @@ import sqlite3
 
 # TODO: !3 Error handling.
 # TODO: !3 Use sqlite cursor.executescript
+# TODO: !1 Add field to music_map table for actual string of path to file.
 if __name__ == "__main__":
     conn = sqlite3.connect('music_map.sqlite')
 
