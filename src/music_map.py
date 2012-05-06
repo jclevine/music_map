@@ -7,6 +7,7 @@ import os
 from collections import defaultdict
 import unicodedata
 from song import Song
+import sqlite3
 
 
 class MusicMap(object):
@@ -15,6 +16,7 @@ class MusicMap(object):
         self._parse_options()
         self._handle_logging(self._debug)
         self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
+        self._db = sqlite3.connect(self._db_loc)
         self._validate()
         self._song_set = self._build_song_set()
         self._music_map = self._build_music_map()
@@ -29,9 +31,12 @@ class MusicMap(object):
         parser.add_option("-d", "--debug", action="store_true", dest="debug",
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
+        parser.add_option("--db", dest="db_loc", help="Location of the DB",
+                          metavar="DB", default="music_map")
 
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
+        self._db_loc = options.db_loc
         self._debug = options.debug
 
     # TODO: !3 Logging ini file?
