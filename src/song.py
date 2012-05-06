@@ -2,19 +2,37 @@ import re
 from music_map import MusicMap
 
 
+# TODO: !2 Figure out a way to organize and iterate over all regexes to figure
+# out which format it is
 class Song(object):
 
     OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3"
     OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE = r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3"
+
+    BACKUP_1_REGEX_WITH_ARTIST_IN_FILE = r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3"
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
     def __init__(self, song):
         self._original = song
 
-        matches = re.match(self.OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE, song)
-        if not matches:
-            matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
+        try:
+            matches = re.match(self.OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE, song)
+            if not matches:
+                matches = re.match(self.OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE, song)
+                if not matches:
+                    matches = re.match(self.BACKUP_1_REGEX_WITH_ARTIST_IN_FILE, song)
+        except AttributeError as ae:
+            self._logger.exception(ae)
+            self._logger.error("Error parsing info out of '{0}'. Continuing."
+                               .format(song))
+            self._unparseable.error(song)
+            # TODO: !3 Manual way for a user to parse out the data?s
+        except Exception as e:
+            self._logger.exception(e)
+            self._logger.error("Unknown error on '{0}'. Continuing."
+                               .format(song))
+            self._unparseable.error(song)
 
         # Very special case for this stupid track.
         # TODO: !3 Have a query as to how to separate out an unparseable song.

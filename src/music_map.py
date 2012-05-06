@@ -4,10 +4,9 @@
 from optparse import OptionParser
 import logging
 import os
-from collections import defaultdict
 import unicodedata
-from song import Song
 import sqlite3
+import song as song_entity
 from music_map_db_handler import MusicMapDBHandler
 
 
@@ -91,30 +90,12 @@ class MusicMap(object):
         self._logger.debug("{0} of songs in playlist.".format(len(songs)))
         return songs
 
+    # TODO: !1 Handle exceptions consistently and with appropriate logging,
+    # especially for unparseable stuff.
     def _build_music_map(self):
-        music_map = defaultdict(dict)
         for song in self._song_set:
-            try:
-                song_obj = Song(song)
-                self._db_handler.insert_song(song_obj, self._music_root)
-
-                music_map[song_obj.artist].setdefault(song_obj.album, {})
-                music_map[song_obj.artist][song_obj.album][song_obj.track] = \
-                    (song_obj.title, song)
-
-            except AttributeError as ae:
-                self._logger.exception(ae)
-                self._logger.error("Error parsing info out of '{0}'. Continuing."
-                                   .format(song))
-                self._unparseable.error(song)
-                # TODO: !3 Manual way for a user to parse out the data?s
-            except Exception as e:
-                self._logger.exception(e)
-                self._logger.error("Unknown error on '{0}'. Continuing."
-                                   .format(song))
-                self._unparseable.error(song)
-
-        return music_map
+            song_obj = song_entity.Song(song)
+            self._db_handler.insert_song(song_obj, self._music_root)
 
     # TODO: !3 Put into a utility function somewhere.
     @staticmethod
