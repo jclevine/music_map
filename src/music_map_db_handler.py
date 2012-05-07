@@ -88,7 +88,9 @@ class MusicMapDBHandler(object):
                   song.orig_album,
                   song.orig_track,
                   song.orig_title,
-                  song.original)
+                  # Assuming we're parsing `find` output that was started
+                  # from /. Removing first character.
+                  song.original[1:])
 
         c = self._conn.cursor()
         try:
