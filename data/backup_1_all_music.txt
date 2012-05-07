@@ -5370,7 +5370,6 @@
 ./media/Backup1/The Alkaline Trio/Maybe I'll Catch Fire/07 - The Alkaline Trio - Tuck Me In.mp3
 ./media/Backup1/The Alkaline Trio/Maybe I'll Catch Fire/08 - The Alkaline Trio - She Took Him to the Lake.mp3
 ./media/Backup1/The Alkaline Trio/Maybe I'll Catch Fire/09 - The Alkaline Trio - 5-3-10-4.mp3
-./media/Backup1/The Alkaline Trio/Maybe I'll Catch Fire/10 - Alkaline Trio - Radio.mp3
 ./media/Backup1/The Alkaline Trio/Maybe I'll Catch Fire/10 - The Alkaline Trio - Radio.mp3
 ./media/Backup1/The Amps/Pacer/01 - The Amps - Pacer.mp3
 ./media/Backup1/The Amps/Pacer/02 - The Amps - Tipp City.mp3
