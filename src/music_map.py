@@ -103,11 +103,6 @@ class MusicMap(object):
     # TODO: !2 Threading?
     def _build_music_map(self):
         num_songs = len(self._song_set)
-        cursor = self._conn.cursor()
-        cursor.execute('PRAGMA synchronous=OFF')
-        cursor.execute('PRAGMA count_changes=OFF')
-        cursor.execute('PRAGMA journal_mode=MEMORY')
-        cursor.execute('PRAGMA temp_store=MEMORY')
         for i, song in enumerate(self._song_set):
             try:
                 song_obj = song_entity.Song(song)
@@ -121,8 +116,7 @@ class MusicMap(object):
                     self._logger.info("{0}/{1}".format(i + 1, num_songs))
 
             self._db_handler.insert_song(song_obj, self._music_root)
-        cursor.close()
-
+        self._db_handler.close()
     # TODO: !3 Put into a utility function somewhere.
     @staticmethod
     def sanitize_string(s, remove_the=False, remove_and=False):

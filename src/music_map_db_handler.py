@@ -89,3 +89,6 @@ class MusicMapDBHandler(object):
         # TODO: !2 Catch exception in case the insert fails. We'll want to
         # just keep going, if it's possible.
         self._cursor.execute(query, values)
+
+    def close(self):
+        self._cursor.close()
