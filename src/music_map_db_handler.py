@@ -1,4 +1,5 @@
 # TODO: !1 Add exception handling/logging
+# TODO: !1 Try using with statements to handle rollback/commit.
 
 
 class MusicMapDBHandler(object):

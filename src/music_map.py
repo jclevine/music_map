@@ -8,6 +8,7 @@ import unicodedata
 import sqlite3
 import song as song_entity
 from music_map_db_handler import MusicMapDBHandler
+from music_map_exceptions import UnparseableSongError
 
 
 class MusicMap(object):
@@ -94,7 +95,14 @@ class MusicMap(object):
     # especially for unparseable stuff.
     def _build_music_map(self):
         for song in self._song_set:
-            song_obj = song_entity.Song(song)
+            try:
+                song_obj = song_entity.Song(song)
+            except UnparseableSongError as use:
+                self._logger.exception(use)
+                self._logger.error("Error parsing info out of '{0}'. Continuing."
+                                   .format(song))
+                self._unparseable.error(song)
+                continue
             self._db_handler.insert_song(song_obj, self._music_root)
 
     # TODO: !3 Put into a utility function somewhere.
