@@ -9,10 +9,18 @@ from music_map_exceptions import UnparseableSongError
 class Song(object):
 
     # TODO: !3 Use named subgroups [http://docs.python.org/library/re.html#re.MatchObject.groupdict]
+    # TODO: !1 Gotta be a better way to define these regexes
     MUSIC_REGEXES = {'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3"}
+                     'BACKUP_1_REGEX_IN_DONE': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^.]+\.(.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+                     'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_TRACK_SPACE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
+                     # I think this one has to be last since it's the most relaxed regex
+                     'BACKUP_1_REGEX_TRACK_TITLE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
@@ -23,13 +31,12 @@ class Song(object):
         for regex in Song.MUSIC_REGEXES.values():
             try:
                 matches = re.match(regex, song)
-
-                if not matches:
-                    continue
-            except AttributeError as ae:  # When does this happen?
+                if matches:
+                    break
+            except AttributeError:  # When does this happen?
                 logger = logging.getLogger("music_map")
-                logger.exception(ae)
-                logger.error("Error parsing info out of '{0}'. Continuing."
+                # logger.exception(ae)
+                logger.debug("Error parsing info out of '{0}'. Continuing."
                                    .format(song))
                 logging.getLogger("unparseable").error(song)
                 # TODO: !3 Manual way for a user to parse out the data?s
@@ -101,7 +108,7 @@ class Song(object):
     def original(self):
         return self._original
 
-    def __repr__(self, *args, **kwargs):
+    def __repr__(self):
         return ("{artist} - {album} - {track} {title} | {orig_artist} - {orig_album} - {orig_track} {orig_title}"
                 .format(artist=self.artist,
                         album=self.album,

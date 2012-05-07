@@ -1,6 +1,7 @@
 #!/usr/bin/python3.1
 
-# TODO: !3 Replace OptionParser with argparse
+# TODO: !3 Replace OptionParser with argparse.
+# TODO: !2 Organize this mess's directory structure.
 from optparse import OptionParser
 import logging
 import os
@@ -22,8 +23,6 @@ class MusicMap(object):
         self._validate()
         self._song_set = self._build_song_set()
         self._music_map = self._build_music_map()
-        self._all_tracks = self._all_tracks()
-        self._index = -1
 
     def _parse_options(self):
         parser = OptionParser()
@@ -51,10 +50,10 @@ class MusicMap(object):
 
         self._logger.setLevel(logging.DEBUG)
 
-        console_handler = logging.StreamHandler()
         file_handler = logging.FileHandler("music_map.log", mode='w')
         file_handler.setLevel(logging.DEBUG)
 
+        console_handler = logging.StreamHandler()
         if debug:
             console_handler.setLevel(logging.DEBUG)
         else:
@@ -72,9 +71,9 @@ class MusicMap(object):
 
         self._unknown_error = logging.getLogger("unknown_error")
         self._unknown_error.setLevel(logging.DEBUG)
-        unknow_error_handler = logging.FileHandler("unknown_error.log", mode="w")
-        unknow_error_handler.setLevel(logging.DEBUG)
-        self._unknown_error.addHandler(unknow_error_handler)
+        unknown_error_handler = logging.FileHandler("unknown_error.log", mode="w")
+        unknown_error_handler.setLevel(logging.DEBUG)
+        self._unknown_error.addHandler(unknown_error_handler)
 
     def _validate(self):
         try:
@@ -93,16 +92,21 @@ class MusicMap(object):
 
     # TODO: !1 Handle exceptions consistently and with appropriate logging,
     # especially for unparseable stuff.
+    # TODO: !1 Show progress in some way.
     def _build_music_map(self):
-        for song in self._song_set:
+        num_songs = len(self._song_set)
+        for i, song in enumerate(self._song_set):
             try:
                 song_obj = song_entity.Song(song)
-            except UnparseableSongError as use:
-                self._logger.exception(use)
-                self._logger.error("Error parsing info out of '{0}'. Continuing."
+            except UnparseableSongError:
+                self._logger.debug("Error parsing info out of '{0}'. Continuing."
                                    .format(song))
                 self._unparseable.error(song)
                 continue
+            finally:
+                if i % 100 == 0 or i == num_songs - 1:
+                    self._logger.info("{0}/{1}".format(i + 1, num_songs))
+
             self._db_handler.insert_song(song_obj, self._music_root)
 
     # TODO: !3 Put into a utility function somewhere.
@@ -111,6 +115,9 @@ class MusicMap(object):
         s = s.lower()
         s = s.replace("_", " ")
         s = s.replace(".", "")
+        s = s.replace("-", " ")
+        s = s.replace("(", "")
+        s = s.replace(")", "")
         if remove_the:
             s = s.replace(" the", "")
             s = s.replace("the ", "")
@@ -122,6 +129,7 @@ class MusicMap(object):
             s = s.replace(" and", "")
         # Change special characters into their somewhat normal equivalent
         s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('utf-8')
+        s = s.rstrip()
         return s
 
     def get_by_track(self, artist, album, track):
@@ -173,28 +181,9 @@ class MusicMap(object):
         else:
             return self._all_tracks[self._index]
 
-    def items(self):
-        """
-        A generator of all the tracks, returning each as a map with each
-        'part' of the track: artist, album, track, and title.
-        """
-        for artist, albums in self._music_map.items():
-            for album, tracks in albums.items():
-                for track, title in tracks.items():
-                    yield {'artist': artist,
-                           'album': album,
-                           'track': track,
-                           'title': title}
-
-    def _all_tracks(self):
-        return [track for track in self.items()]
-
 
 def main():
-    music_map = MusicMap()
-    print(music_map.get_by_track('Siouxsie and the Banshees', 'Kaleidoscope', '05'))
-    print(music_map.get_by_title('Siouxsie and the Banshees', 'Kaleidoscope', 'Happy House'))
-    print(music_map.get_by_title('Siouxsie and the Banshees', 'Kaleidoscope', 'Happier House'))
+    MusicMap()
 
 
 if __name__ == "__main__":
