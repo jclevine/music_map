@@ -18,8 +18,14 @@ class MusicMap(object):
         self._parse_options()
         self._handle_logging(self._debug)
         self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
+        # TODO: !3 Bring this sql stuff into its own function
         self._conn = sqlite3.connect(self._db_loc)
-        self._db_handler = MusicMapDBHandler(self._conn)
+        self._cursor = self._conn.cursor()
+        self._cursor.execute('PRAGMA synchronous=OFF')
+        self._cursor.execute('PRAGMA count_changes=OFF')
+        self._cursor.execute('PRAGMA journal_mode=MEMORY')
+        self._cursor.execute('PRAGMA temp_store=MEMORY')
+        self._db_handler = MusicMapDBHandler(self._cursor)
         self._validate()
         self._song_set = self._build_song_set()
         self._music_map = self._build_music_map()
@@ -114,7 +120,7 @@ class MusicMap(object):
                 if i % 100 == 0 or i == num_songs - 1:
                     self._logger.info("{0}/{1}".format(i + 1, num_songs))
 
-            self._db_handler.insert_song(cursor, song_obj, self._music_root)
+            self._db_handler.insert_song(song_obj, self._music_root)
         cursor.close()
 
     # TODO: !3 Put into a utility function somewhere.
