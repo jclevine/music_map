@@ -8,7 +8,6 @@ class MusicMapDBHandler(object):
         self._conn = conn
 
     def insert_song(self, cursor, song, music_root):
-        # TODO: !1 Figure out when/where to close cursors/connections.
         new_song_id = None
         if not self._song_in_song_table(cursor, song):
             query = """
