@@ -12,7 +12,10 @@ class Song(object):
     # TODO: !1 Gotta be a better way to define these regexes
     MUSIC_REGEXES = {'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
+                     # Special for stupid Man or Astroman files.
+                     'MOAM_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
                      'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^.]+\.(.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",

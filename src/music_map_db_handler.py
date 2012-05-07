@@ -7,10 +7,10 @@ class MusicMapDBHandler(object):
     def __init__(self, conn):
         self._conn = conn
 
-    def insert_song(self, song, music_root):
+    def insert_song(self, cursor, song, music_root):
         # TODO: !1 Figure out when/where to close cursors/connections.
         new_song_id = None
-        if not self._song_in_song_table(song):
+        if not self._song_in_song_table(cursor, song):
             query = """
                     INSERT INTO song
                               ( artist_key
@@ -28,21 +28,20 @@ class MusicMapDBHandler(object):
                       song.album,
                       song.track,
                       song.title)
+
+            # TODO: !2 Catch exception in case the insert fails. We'll want to
+            # just keep going, if it's possible.
             try:
-                c = self._conn.cursor()
-                c.execute(query, values)
-                new_song_id = c.lastrowid
-            except Exception:
-                self._conn.rollback()
-            finally:
-                self._conn.commit()
+                cursor.execute(query, values)
+            except Exception as e:
+                print(song)
+            new_song_id = cursor.lastrowid
 
         # If one has been inserted, we need to populate the other tables, as well.
         if new_song_id:
-            self._insert_into_music_map(new_song_id, song, music_root)
+            self._insert_into_music_map(cursor, new_song_id, song, music_root)
 
-    def _song_in_song_table(self, song):
-        c = self._conn.cursor()
+    def _song_in_song_table(self, cursor, song):
         query = """
                 SELECT COUNT(*)
                   FROM song s
@@ -55,13 +54,12 @@ class MusicMapDBHandler(object):
                   song.album,
                   song.track,
                   song.title)
-        rs = c.execute(query, values)
+        rs = cursor.execute(query, values)
         num_rows = rs.fetchone()
         rs.close()
-        c.close()
         return num_rows == 1
 
-    def _insert_into_music_map(self, new_song_id, song, music_root):
+    def _insert_into_music_map(self, cursor, new_song_id, song, music_root):
         query = """
                 INSERT INTO music_map
                           ( song_id
@@ -92,10 +90,6 @@ class MusicMapDBHandler(object):
                   # from /. Removing first character.
                   song.original[1:])
 
-        c = self._conn.cursor()
-        try:
-            c.execute(query, values)
-        except Exception:
-            self._conn.rollback()
-        finally:
-            self._conn.commit()
+        # TODO: !2 Catch exception in case the insert fails. We'll want to
+        # just keep going, if it's possible.
+        cursor.execute(query, values)
