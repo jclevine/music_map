@@ -1,5 +1,5 @@
-# TODO: !1 Add exception handling/logging
-# TODO: !1 Try using with statements to handle rollback/commit.
+# TODO: !2 Add exception handling/logging
+# TODO: !2 Try using with statements to handle rollback/commit.
 
 
 class MusicMapDBHandler(object):
@@ -30,10 +30,7 @@ class MusicMapDBHandler(object):
 
             # TODO: !2 Catch exception in case the insert fails. We'll want to
             # just keep going, if it's possible.
-            try:
-                cursor.execute(query, values)
-            except Exception as e:
-                print(song)
+            cursor.execute(query, values)
             new_song_id = cursor.lastrowid
 
         # If one has been inserted, we need to populate the other tables, as well.

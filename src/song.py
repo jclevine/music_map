@@ -9,7 +9,7 @@ from music_map_exceptions import UnparseableSongError
 class Song(object):
 
     # TODO: !3 Use named subgroups [http://docs.python.org/library/re.html#re.MatchObject.groupdict]
-    # TODO: !1 Gotta be a better way to define these regexes
+    # TODO: !2 Gotta be a better way to define these regexes
     MUSIC_REGEXES = {'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
                      # Special for stupid Man or Astroman files.

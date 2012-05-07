@@ -92,7 +92,7 @@ class MusicMap(object):
         self._logger.debug("{0} of songs in playlist.".format(len(songs)))
         return songs
 
-    # TODO: !1 Handle exceptions consistently and with appropriate logging,
+    # TODO: !2 Handle exceptions consistently and with appropriate logging,
     # especially for unparseable stuff.
     # TODO: !2 Threading?
     def _build_music_map(self):
