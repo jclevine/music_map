@@ -40,6 +40,7 @@ if __name__ == "__main__":
                                        , album        VARCHAR2(500) NOT NULL    -- What the album actually looks like in that location
                                        , track        VARCHAR2(5)   NOT NULL    -- What the track actually looks like in that location
                                        , title        VARCHAR2(500) NOT NULL    -- What the title actually looks like in that location
+                                       , full_path    VARCHAR2(500) NOT NULL    -- What the full path is to that location's song
                                        , FOREIGN KEY(song_id) REFERENCES song(song_id)
                                        , UNIQUE(song_id
                                               , location

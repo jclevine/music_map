@@ -88,6 +88,10 @@ class Song(object):
     def orig_title(self):
         return self._orig_title
 
+    @property
+    def original(self):
+        return self._original
+
     def __repr__(self, *args, **kwargs):
         return ("{artist} - {album} - {track} {title} | {orig_artist} - {orig_album} - {orig_track} {orig_title}"
                 .format(artist=self.artist,

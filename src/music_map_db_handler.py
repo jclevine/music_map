@@ -69,9 +69,11 @@ class MusicMapDBHandler(object):
                           , album
                           , track
                           , title
+                          , full_path
                           )
                      VALUES
                           ( ?
+                          , ?
                           , ?
                           , ?
                           , ?
@@ -84,7 +86,8 @@ class MusicMapDBHandler(object):
                   song.orig_artist,
                   song.orig_album,
                   song.orig_track,
-                  song.orig_title)
+                  song.orig_title,
+                  song.original)
 
         c = self._conn.cursor()
         try:
