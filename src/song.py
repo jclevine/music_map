@@ -2,6 +2,7 @@ import re
 from music_map import MusicMap
 import logging
 from music_map_exceptions import UnparseableSongError
+from util import string_utils
 
 
 # TODO: !2 Figure out a way to organize and iterate over all regexes to figure
@@ -67,7 +68,7 @@ class Song(object):
 
         # Very special case for this stupid track.
         # TODO: !3 Have a query as to how to separate out an unparseable song.
-        ss = MusicMap.sanitize_string
+        ss = string_utils.sanitize_string
         if '//music/Ludwig Van Beethoven/Symphony No. 5 in C minor, Op. 67 Egmont Overture, Op.84/04_Ludwig Van Beethoven_Egmont Overture, Op. 84.mp3' in song:
             self._artist = ss('Ludwig Van Beethoven')
             self._album = ss('Symphony No. 5 in C minor, Op. 67 Egmont Overture, Op.84')

@@ -5,11 +5,11 @@
 from optparse import OptionParser
 import logging
 import os
-import unicodedata
 import sqlite3
 import song as song_entity
 from music_map_db_handler import MusicMapDBHandler
 from music_map_exceptions import UnparseableSongError
+from util import string_utils
 
 
 class MusicMap(object):
@@ -126,31 +126,8 @@ class MusicMap(object):
             self._db_handler.insert_song(song_obj, self._music_root)
         self._db_handler.close()
 
-    # TODO: !3 Put into a utility function somewhere.
-    @staticmethod
-    def sanitize_string(s, remove_the=False, remove_and=False):
-        s = s.lower()
-        s = s.replace("_", " ")
-        s = s.replace(".", "")
-        s = s.replace("-", " ")
-        s = s.replace("(", "")
-        s = s.replace(")", "")
-        if remove_the:
-            s = s.replace(" the", "")
-            s = s.replace("the ", "")
-
-        if remove_and:
-            s = s.replace("& ", "")
-            s = s.replace(" &", "")
-            s = s.replace("and ", "")
-            s = s.replace(" and", "")
-        # Change special characters into their somewhat normal equivalent
-        s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('utf-8')
-        s = s.rstrip()
-        return s
-
     def get_by_track(self, artist, album, track):
-        ss = MusicMap.sanitize_string
+        ss = string_utils.sanitize_string
         if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
             raise KeyError("Unable to find artist {0}".format(artist))
         albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
@@ -169,7 +146,7 @@ class MusicMap(object):
         return albums[ss(album)][ss(track)]
 
     def get_by_title(self, artist, album, title):
-        ss = MusicMap.sanitize_string
+        ss = string_utils.sanitize_string
         if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
             raise KeyError("Unable to find artist {0}".format(artist))
         albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
