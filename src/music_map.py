@@ -123,7 +123,6 @@ class MusicMap(object):
                 if i % 100 == 0 or i == num_songs - 1:
                     self._logger.info("{0}/{1}".format(i + 1, num_songs))
 
-            # TODO: !1 Handle music roots properly
             self._db_handler.insert_song(song_obj)
         self._db_handler.close()
 
