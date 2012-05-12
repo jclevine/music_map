@@ -10,8 +10,8 @@ from util import string_utils
 class Song(object):
 
     # TODO: !3 Use named subgroups [http://docs.python.org/library/re.html#re.MatchObject.groupdict]
-    # TODO: !2 Gotta be a better way to define these regexes
-    # TODO: !3 Name regexes better.
+    # TODO: !2 Gotta be a better way to define these regexes. Use music_root(s), for instance.
+    # TODO: !3 Name regexes better and give examples.
     # TODO: !2 Doublecheck order of regexes so that more specific ones come before the more general ones.
     MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
                      'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
@@ -36,6 +36,15 @@ class Song(object):
                      'BACKUP_2_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
                      'BACKUP_2_DONE REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
                      'BACKUP_2_DONE REGEX_TRACK_SPACE_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+
+                     # //<microSD1>/music/Eno/Here Come the Warm Jets/03 - Brian Eno - Baby's On Fire.mp3
+                     'SANSA_CARD_MUSIC': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
+
+                     # //high_quality_music/Belle_and_Sebastian/Dear Catastrophe Waitress/05.Belle_&_Sebastian.Asleep_On_A_Sunbeam.mp3
+                     'SANSA_HQM': r"//high_quality_music/([^/]+)/([^/]+)/(\d+)\.[^.]+\.(.*)\.mp3",
+
+                     # //<microSD1>/music/Bright Eyes/Fevers & Mirrors/09 The Center of the World.mp3
+                     'SANSA_CARD_MUSIC_WITHOUT_DASH': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3"
                      }
 
     # TODO: !3 Throw more specific exceptions

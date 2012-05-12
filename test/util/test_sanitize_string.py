@@ -108,3 +108,12 @@ class SanitizeStringTest(unittest.TestCase):
         expected_string = 'symphony no 5 in c minor, op 67 egmont overture, op84'
         actual_string = sanitize_string(string_with_periods, remove_the=True, remove_and=True)
         self.assertEqual(expected_string, actual_string)
+
+    #===========================================================================
+    # Test Sanitizing Strings with Ampersands
+    #===========================================================================
+    def test_sanitize_string_with_ampersand(self):
+        string_with_ampersand = 'Fevers & Mirrors'
+        expected_string = 'fevers mirrors'
+        actual_string = sanitize_string(string_with_ampersand, remove_the=True, remove_and=True)
+        self.assertEqual(expected_string, actual_string)
