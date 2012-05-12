@@ -1,5 +1,4 @@
 import re
-from music_map import MusicMap
 import logging
 from music_map_exceptions import UnparseableSongError
 from util import string_utils
