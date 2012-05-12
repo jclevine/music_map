@@ -124,7 +124,7 @@ class MusicMap(object):
                     self._logger.info("{0}/{1}".format(i + 1, num_songs))
 
             # TODO: !1 Handle music roots properly
-            self._db_handler.insert_song(song_obj, self._music_roots[0])
+            self._db_handler.insert_song(song_obj)
         self._db_handler.close()
 
     def __iter__(self):

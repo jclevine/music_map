@@ -8,7 +8,7 @@ class MusicMapDBHandler(object):
     def __init__(self, cursor):
         self._cursor = cursor
 
-    def insert_song(self, song, music_root):
+    def insert_song(self, song):
         new_song_id = None
         if not self._song_in_song_table(song):
             query = """
@@ -43,7 +43,7 @@ class MusicMapDBHandler(object):
 
         # If one has been inserted, we need to populate the other tables, as well.
         if new_song_id:
-            self._insert_into_music_map(new_song_id, song, music_root)
+            self._insert_into_music_map(new_song_id, song)
 
     def _song_in_song_table(self, song):
         query = """
@@ -63,7 +63,7 @@ class MusicMapDBHandler(object):
         rs.close()
         return num_rows == 1
 
-    def _insert_into_music_map(self, new_song_id, song, music_root):
+    def _insert_into_music_map(self, new_song_id, song):
         query = """
                 INSERT INTO music_map
                           ( song_id
@@ -85,7 +85,7 @@ class MusicMapDBHandler(object):
                           )
                 """
         values = (new_song_id,
-                  music_root,
+                  song.music_root,
                   song.orig_artist,
                   song.orig_album,
                   song.orig_track,

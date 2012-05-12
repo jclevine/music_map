@@ -67,17 +67,17 @@ class Song(object):
     # TODO: !2 Have to_map function that will prepare song for insertion into table
     def __init__(self, song, music_roots):
         self._original = song
-        self._music_roots = music_roots
 
         # TODO: !2 Yet again, handle logging/exceptions better.
         # TODO: !2 Refactor this possibly.
         # Try each regex with all the possible roots and see if there's a match.
         matches = False
         for regex in Song.MUSIC_REGEXES.values():
-            for music_root in self._music_roots:
+            for music_root in music_roots:
                 try:
                     matches = re.match(regex.format(root=music_root), song)
                     if matches:
+                        self._music_root = music_root
                         break
                 except AttributeError:  # When does this happen?
                     logger = logging.getLogger("music_map")
@@ -150,6 +150,10 @@ class Song(object):
     @property
     def original(self):
         return self._original
+
+    @property
+    def music_root(self):
+        return self._music_root
 
     def __repr__(self):
         return ("{artist} | {album} | {track} | {title}"
