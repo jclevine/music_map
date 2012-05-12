@@ -228,3 +228,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("madeleine mary", song.title_key)
         self.assertEqual("Madeleine-Mary", song.orig_title)
+
+    def test_parse_track_dot_artist_dot_track(self):
+        song_path = "/media/Backup2/high_quality_music/Done./Ben_Folds/Whatever And Ever Amen (Special Expanded Edition)/07.Ben_Folds_Five.Smoke.mp3"
+        song = Song(song_path, ['/media/Backup2/high_quality_music/Done.'])
+        self.assertEqual("ben folds", song.artist_key)
+        self.assertEqual("Ben_Folds", song.orig_artist)
+
+        self.assertEqual('whatever ever amen special expanded edition', song.album_key)
+        self.assertEqual('Whatever And Ever Amen (Special Expanded Edition)', song.orig_album)
+
+        self.assertEqual('07', song.track_key)
+        self.assertEqual('07', song.orig_track)
+
+        self.assertEqual("smoke", song.title_key)
+        self.assertEqual("Smoke", song.orig_title)
