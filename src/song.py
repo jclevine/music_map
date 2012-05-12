@@ -69,24 +69,19 @@ class Song(object):
         # Very special case for this stupid track.
         # TODO: !3 Have a query as to how to separate out an unparseable song.
         ss = string_utils.sanitize_string
-        if '//music/Ludwig Van Beethoven/Symphony No. 5 in C minor, Op. 67 Egmont Overture, Op.84/04_Ludwig Van Beethoven_Egmont Overture, Op. 84.mp3' in song:
-            self._artist = ss('Ludwig Van Beethoven')
-            self._album = ss('Symphony No. 5 in C minor, Op. 67 Egmont Overture, Op.84')
-            self._track = ss('04')
-            self._title = ss('Egmont Overture, Op. 84')
-        else:
-            # TODO: !3 Some utility to grab regex matches into a dictionary?
-            self._orig_artist = matches.group(1)
-            self._artist = ss(self._orig_artist, remove_the=True, remove_and=True)
 
-            self._orig_album = matches.group(2)
-            self._album = ss(self._orig_album)
+        # TODO: !3 Some utility to grab regex matches into a dictionary?
+        self._orig_artist = matches.group(1)
+        self._artist = ss(self._orig_artist, remove_the=True, remove_and=True)
 
-            self._orig_track = matches.group(3)
-            self._track = ss(self._orig_track)
+        self._orig_album = matches.group(2)
+        self._album = ss(self._orig_album, remove_the=True, remove_and=True)
 
-            self._orig_title = matches.group(4)
-            self._title = ss(self._orig_title)
+        self._orig_track = matches.group(3)
+        self._track = ss(self._orig_track, remove_the=True, remove_and=True)
+
+        self._orig_title = matches.group(4)
+        self._title = ss(self._orig_title, remove_the=True, remove_and=True)
 
     @property
     def artist(self):
