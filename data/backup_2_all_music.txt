@@ -2042,45 +2042,25 @@
 /media/Backup2/high_quality_music/Liz_Phair/Exile_In_Guyville/16.Gunshy.mp3
 /media/Backup2/high_quality_music/Liz_Phair/Exile_In_Guyville/17.Stratford-On-Guy.mp3
 /media/Backup2/high_quality_music/Liz_Phair/Exile_In_Guyville/18.Strange_Loop.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/11 - Not Like The Other One.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/01 - Don't Give It Up Now.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/01.Don't_Give_It_Up_Now.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/02 - Help You Ann.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/02.Help_You_Ann.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/03 - I Confess.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/03.I_Confess.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/04 - I'm Tellin' You Girl.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/04.I'm_Tellin'_You_Girl.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/05 - Love Me Till The Sun Shines.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/05.Love_Me_Till_The_Sun_Shines.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/06 - I Really Want You Right Now.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/06.I_Really_Want_You_Right_Now.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/07 - Tired Of Waiting.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/07.Tired_Of_Waiting.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/08 - Dolly.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/08.Dolly.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/09 - Soapy.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/09.Soapy.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/10 - The Way I Feel About You.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/10.The_Way_I_Feel_About_You.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/11.Not_Like_The_Other_One.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/12 - Never Met A Girl Like You.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/01.Don't_Give_It_Up_Now.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/02.Help_You_Ann.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/03.I_Confess.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/04.I'm_Tellin'_You_Girl.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/05.Love_Me_Till_The_Sun_Shines.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/06.I_Really_Want_You_Right_Now.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/07.Tired_Of_Waiting.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/08.Dolly.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/09.Soapy.mp3
+/media/Backup2/high_quality_music/Lyres/On_Fyre/10.The_Way_I_Feel_About_You.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/12.Never_Met_A_Girl_Like_You.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/13 - How Could Have I Done All Of These Things.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/13.How_Could_Have_I_Done_All_Of_These_Things.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/14 - Swing Shift.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/14.Swing_Shift.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/15 - Trying Just To Please You.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/15.Trying_Just_To_Please_You.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/16 - Busy Body.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/16.Busy_Body.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/17 - Someone Who'll Treat You Right Now.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/17.Someone_Who'll_Treat_You_Right_Now.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/18 - She Pays The Rent.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/18.She_Pays_The_Rent.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/19 - You've Been Wrong.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/19.You've_Been_Wrong.mp3
-/media/Backup2/high_quality_music/Lyres/On_Fyre/20 - I'll Try Anyway.mp3
 /media/Backup2/high_quality_music/Lyres/On_Fyre/20.I'll_Try_Anyway.mp3
 /media/Backup2/high_quality_music/M._Ward/Transistor_Radio/01.You_Still_Believe_In_Me.mp3
 /media/Backup2/high_quality_music/M._Ward/Transistor_Radio/02.One_Life_Away.mp3
