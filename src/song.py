@@ -47,7 +47,7 @@ class Song(object):
 #                     'SANSA_CARD_MUSIC_WITHOUT_DASH': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3"
 #                     }
     MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK - ARTIST - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK.TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)\.([^.]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK.TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_ONE_DASH - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+- (.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+)\.mp3",
@@ -60,9 +60,7 @@ class Song(object):
                      'ROOT/ARTIST/ALBUM/ARTIST - ALBUM - TRACK - TITLE': r"{root}/([^/]+)/([^/]+)/[^-]+- [^-]+- (\d+) - (.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK-TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
                      'ROOT/Sonic_Youth/ALBUM/TRACK TITLE_WITH_DASH': r"{root}/(Sonic_Youth)/([^/]+)/(\d+) ([^-]+-[^.]+)\.mp3",
-                     "ROOT/Bonnie 'Prince' Billy/ALBUM/TRACK TITLE_WITH_DASH": r"{root}/(Bonnie 'Prince' Billy)/([^/]+)/(\d+) ([^-]+-[^.]+)\.mp3",
-                     "ROOT/ARTIST/ALBUM/TRACK.ARTIST.TITLE": r"{root}/([^/]+)/([^/]+)/(\d+)\.[^.]+\.([^.]+)\.mp3",
-                     "ROOT/Al_Green/ALBUM/TRACK.TITLE_WITH_DOTS": r"{root}/(Al_Green)/([^/]+)/(\d+)\.(.*)\.mp3"
+                     "ROOT/Bonnie 'Prince' Billy/ALBUM/TRACK TITLE_WITH_DASH": r"{root}/(Bonnie 'Prince' Billy)/([^/]+)/(\d+) ([^-]+-[^.]+)\.mp3"
                      }
 
     # TODO: !3 Throw more specific exceptions
