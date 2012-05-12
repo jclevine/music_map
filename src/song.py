@@ -6,11 +6,13 @@ from music_map_exceptions import UnparseableSongError
 
 # TODO: !2 Figure out a way to organize and iterate over all regexes to figure
 # out which format it is
+# TODO: !3 Move to common place for all projects to use.
 class Song(object):
 
     # TODO: !3 Use named subgroups [http://docs.python.org/library/re.html#re.MatchObject.groupdict]
     # TODO: !2 Gotta be a better way to define these regexes
     # TODO: !3 Name regexes better.
+    # TODO: !2 Doublecheck order of regexes so that more specific ones come before the more general ones.
     MUSIC_REGEXES = {'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
                      # Special for stupid Man or Astroman files.
@@ -24,7 +26,16 @@ class Song(object):
                      'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_TRACK_SPACE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
                      # I think this one has to be last since it's the most relaxed regex
-                     'BACKUP_1_REGEX_TRACK_TITLE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3"}
+                     'BACKUP_1_REGEX_TRACK_TITLE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
+                     'BACKUP_2_REGEX': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+                     'BACKUP_2_DONE_REGEX': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+                     'BACKUP_2_DONE_REGEX_ARTIST_ALBUM_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/[^-]+-[^-]+- (\d+) - (.*)\.mp3",
+                     'BACKUP_2_DONE_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
+                     'BACKUP_2_REGEX_TRACK_TITLE_ARTIST_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+                     'BACKUP_2_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+                     'BACKUP_2_DONE REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
+                     'BACKUP_2_DONE REGEX_TRACK_SPACE_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+                     }
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
@@ -63,7 +74,7 @@ class Song(object):
             self._track = ss('04')
             self._title = ss('Egmont Overture, Op. 84')
         else:
-            # TODO: !3 Some utility to grab regex matches to a dictionary?
+            # TODO: !3 Some utility to grab regex matches into a dictionary?
             self._orig_artist = matches.group(1)
             self._artist = ss(self._orig_artist, remove_the=True, remove_and=True)
 

@@ -13,6 +13,13 @@ from music_map_exceptions import UnparseableSongError
 
 
 class MusicMap(object):
+    """
+    Takes in a large file of where your music is located and :
+    1. Inserts it into a song table so that we have a unique row to identity
+       every song you own.
+    2. Insert into a music_map table that maps the unique song id to the actual
+       location of the song.
+    """
 
     def __init__(self):
         self._parse_options()
@@ -53,6 +60,7 @@ class MusicMap(object):
         self._debug = options.debug
 
     # TODO: !3 Logging ini file?
+    # TODO: !3 Define where the logs go. Location is sort of bad now.
     def _handle_logging(self, debug):
         self._logger = logging.getLogger("music_map")
 
@@ -117,6 +125,7 @@ class MusicMap(object):
 
             self._db_handler.insert_song(song_obj, self._music_root)
         self._db_handler.close()
+
     # TODO: !3 Put into a utility function somewhere.
     @staticmethod
     def sanitize_string(s, remove_the=False, remove_and=False):
