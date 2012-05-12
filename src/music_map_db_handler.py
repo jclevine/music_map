@@ -1,5 +1,6 @@
 # TODO: !2 Add exception handling/logging
 # TODO: !2 Try using with statements to handle rollback/commit.
+import logging
 
 
 class MusicMapDBHandler(object):
@@ -32,6 +33,8 @@ class MusicMapDBHandler(object):
             # just keep going, if it's possible.
             self._cursor.execute(query, values)
             new_song_id = self._cursor.lastrowid
+        else:
+            logging.getLogger('music_map').info("Song already in DB: {0}".format(song))
 
         # If one has been inserted, we need to populate the other tables, as well.
         if new_song_id:

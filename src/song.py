@@ -129,7 +129,7 @@ class Song(object):
         return self._original
 
     def __repr__(self):
-        return ("{artist} - {album} - {track} {title} | {orig_artist} - {orig_album} - {orig_track} {orig_title}"
+        return ("Keys: {artist} | {album} | {track} | {title} - {orig_artist} | Orig: {orig_album} | {orig_track} | {orig_title}"
                 .format(artist=self.artist,
                         album=self.album,
                         track=self.track,
