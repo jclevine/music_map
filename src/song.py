@@ -13,64 +13,73 @@ class Song(object):
     # TODO: !2 Gotta be a better way to define these regexes. Use music_root(s), for instance.
     # TODO: !3 Name regexes better and give examples.
     # TODO: !2 Doublecheck order of regexes so that more specific ones come before the more general ones.
-    MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
-                     'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
-                     'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
-                     # Special for stupid Man or Astroman files.
-                     'MOAM_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
-                     'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"/media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
-                     'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_TRACK_SPACE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
-                     # I think this one has to be last since it's the most relaxed regex
-                     'BACKUP_1_REGEX_TRACK_TITLE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
-                     'BACKUP_2_REGEX': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'BACKUP_2_DONE_REGEX': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'BACKUP_2_DONE_REGEX_ARTIST_ALBUM_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/[^-]+-[^-]+- (\d+) - (.*)\.mp3",
-                     'BACKUP_2_DONE_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
-                     'BACKUP_2_REGEX_TRACK_TITLE_ARTIST_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
-                     'BACKUP_2_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
-                     'BACKUP_2_DONE REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
-                     'BACKUP_2_DONE REGEX_TRACK_SPACE_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
-
-                     # //<microSD1>/music/Eno/Here Come the Warm Jets/03 - Brian Eno - Baby's On Fire.mp3
-                     'SANSA_CARD_MUSIC': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
-
-                     # //high_quality_music/Belle_and_Sebastian/Dear Catastrophe Waitress/05.Belle_&_Sebastian.Asleep_On_A_Sunbeam.mp3
-                     'SANSA_HQM': r"//high_quality_music/([^/]+)/([^/]+)/(\d+)\.[^.]+\.(.*)\.mp3",
-
-                     # //<microSD1>/music/Bright Eyes/Fevers & Mirrors/09 The Center of the World.mp3
-                     'SANSA_CARD_MUSIC_WITHOUT_DASH': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3"
-                     }
+#    MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+#                     'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
+#                     'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
+#                     # Special for stupid Man or Astroman files.
+#                     'MOAM_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
+#                     'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+#                     'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"/media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
+#                     'BACKUP_1_REGEX_IN_DONE': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+#                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+#                     'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+#                     'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
+#                     'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+#                     'BACKUP_1_REGEX_TRACK_SPACE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
+#                     # I think this one has to be last since it's the most relaxed regex
+#                     'BACKUP_1_REGEX_TRACK_TITLE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
+#                     'BACKUP_2_REGEX': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+#                     'BACKUP_2_DONE_REGEX': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+#                     'BACKUP_2_DONE_REGEX_ARTIST_ALBUM_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/[^-]+-[^-]+- (\d+) - (.*)\.mp3",
+#                     'BACKUP_2_DONE_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
+#                     'BACKUP_2_REGEX_TRACK_TITLE_ARTIST_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+#                     'BACKUP_2_REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+#                     'BACKUP_2_DONE REGEX_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
+#                     'BACKUP_2_DONE REGEX_TRACK_SPACE_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+#
+#                     # //<microSD1>/music/Eno/Here Come the Warm Jets/03 - Brian Eno - Baby's On Fire.mp3
+#                     'SANSA_CARD_MUSIC': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
+#
+#                     # //high_quality_music/Belle_and_Sebastian/Dear Catastrophe Waitress/05.Belle_&_Sebastian.Asleep_On_A_Sunbeam.mp3
+#                     'SANSA_HQM': r"//high_quality_music/([^/]+)/([^/]+)/(\d+)\.[^.]+\.(.*)\.mp3",
+#
+#                     # //<microSD1>/music/Bright Eyes/Fevers & Mirrors/09 The Center of the World.mp3
+#                     'SANSA_CARD_MUSIC_WITHOUT_DASH': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3"
+#                     }
+    MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK - ARTIST - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK.TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
-    def __init__(self, song):
+    def __init__(self, song, music_roots):
         self._original = song
+        self._music_roots = music_roots
 
         # TODO: !2 Yet again, handle logging/exceptions better.
+        # TODO: !2 Refactor this possibly.
+        # Try each regex with all the possible roots and see if there's a match.
         for regex in Song.MUSIC_REGEXES.values():
-            try:
-                matches = re.match(regex, song)
-                if matches:
-                    break
-            except AttributeError:  # When does this happen?
-                logger = logging.getLogger("music_map")
-                # logger.exception(ae)
-                logger.debug("Error parsing info out of '{0}'. Continuing."
-                                   .format(song))
-                logging.getLogger("unparseable").error(song)
-                # TODO: !3 Manual way for a user to parse out the data?s
-            except Exception as e:
-                logger = logging.getLogger("music_map")
-                logger.exception(e)
-                logger.error("Unknown error on '{0}'. Continuing."
-                             .format(song))
-                logging.getLogger("unparseable").error(song)
+            for music_root in self._music_roots:
+                try:
+                    matches = re.match(regex.format(root=music_root), song)
+                    if matches:
+                        break
+                except AttributeError:  # When does this happen?
+                    logger = logging.getLogger("music_map")
+                    # logger.exception(ae)
+                    logger.debug("Error parsing info out of '{0}'. Continuing."
+                                       .format(song))
+                    logging.getLogger("unparseable").error(song)
+                    # TODO: !3 Manual way for a user to parse out the data?s
+                except Exception as e:
+                    logger = logging.getLogger("music_map")
+                    logger.exception(e)
+                    logger.error("Unknown error on '{0}'. Continuing."
+                                 .format(song))
+                    logging.getLogger("unparseable").error(song)
+            if matches:
+                break
 
         if not matches:
             raise UnparseableSongError(song)

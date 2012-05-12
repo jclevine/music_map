@@ -43,12 +43,9 @@ class MusicMap(object):
         parser.add_option("-p", "--playlist", dest="playlist_loc",
                            help="Location of the playlist you want to make a " \
                                 "map for.", metavar="PLAYLIST")
-        parser.add_option("--music_roots", dest="music_roots",
+        parser.add_option("--music_roots", dest="music_roots_csv",
                           help="The csv of full paths to the root of the music trees " \
-                               "inside the playlist.", metavar="ROOT_PATHS")
-#        parser.add_option("--music_root", dest="music_root",
-#                          help="The csv of full paths to the root of the music trees " \
-#                               "inside the playlist.", metavar="ROOT_PATHS")
+                               "inside the playlist.", metavar="ROOT_PATHS_CSV")
         parser.add_option("-d", "--debug", action="store_true", dest="debug",
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
@@ -57,7 +54,7 @@ class MusicMap(object):
 
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
-        self._music_root = options.music_roots
+        self._music_roots = options.music_roots_csv.split(',')
         self._db_loc = options.db_loc
         self._debug = options.debug
 
@@ -115,7 +112,7 @@ class MusicMap(object):
         num_songs = len(self._song_set)
         for i, song in enumerate(self._song_set):
             try:
-                song_obj = song_entity.Song(song)
+                song_obj = song_entity.Song(song, self._music_roots)
             except UnparseableSongError:
                 self._logger.debug("Error parsing info out of '{0}'. Continuing."
                                    .format(song))
