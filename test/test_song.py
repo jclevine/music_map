@@ -168,3 +168,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("deliverance", song.title_key)
         self.assertEqual("Deliverance", song.orig_title)
+
+    def test_parse_artist_dash_album_dash_track_dash_title(self):
+        song_path = "/media/Backup2/high_quality_music/Done./Bob_Dylan/The Basement Tapes/Bob Dylan & The Band - The Basement Tapes - 08 - Bessie Smith.mp3"
+        song = Song(song_path, ['/media/Backup2/high_quality_music/Done.'])
+        self.assertEqual('bob dylan', song.artist_key)
+        self.assertEqual('Bob_Dylan', song.orig_artist)
+
+        self.assertEqual('basement tapes', song.album_key)
+        self.assertEqual('The Basement Tapes', song.orig_album)
+
+        self.assertEqual('08', song.track_key)
+        self.assertEqual('08', song.orig_track)
+
+        self.assertEqual("bessie smith", song.title_key)
+        self.assertEqual("Bessie Smith", song.orig_title)
