@@ -45,7 +45,8 @@ class MusicMap(object):
                                 "map for.", metavar="PLAYLIST")
         parser.add_option("--music_roots", dest="music_roots_csv",
                           help="The csv of full paths to the root of the music trees " \
-                               "inside the playlist.", metavar="ROOT_PATHS_CSV")
+                               "inside the playlist. Do not include ending /.",
+                               metavar="ROOT_PATHS_CSV")
         parser.add_option("-d", "--debug", action="store_true", dest="debug",
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
@@ -122,7 +123,8 @@ class MusicMap(object):
                 if i % 100 == 0 or i == num_songs - 1:
                     self._logger.info("{0}/{1}".format(i + 1, num_songs))
 
-            self._db_handler.insert_song(song_obj, self._music_root)
+            # TODO: !1 Handle music roots properly
+            self._db_handler.insert_song(song_obj, self._music_roots[0])
         self._db_handler.close()
 
     def __iter__(self):

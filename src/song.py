@@ -48,7 +48,10 @@ class Song(object):
 #                     }
     MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK - ARTIST - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK.TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3"}
+                     'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_ONE_DASH - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+- (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - ([^-]+)\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
@@ -59,6 +62,7 @@ class Song(object):
         # TODO: !2 Yet again, handle logging/exceptions better.
         # TODO: !2 Refactor this possibly.
         # Try each regex with all the possible roots and see if there's a match.
+        matches = False
         for regex in Song.MUSIC_REGEXES.values():
             for music_root in self._music_roots:
                 try:
