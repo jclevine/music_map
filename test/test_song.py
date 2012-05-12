@@ -243,3 +243,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("smoke", song.title_key)
         self.assertEqual("Smoke", song.orig_title)
+
+    def test_parse_track_dot_title_with_dots(self):
+        song_path = "/media/Backup1/Done./Al_Green/Call_Me/02.Have_You_Been_Making_Out_O.K..mp3"
+        song = Song(song_path, ['/media/Backup1/Done.'])
+        self.assertEqual("al green", song.artist_key)
+        self.assertEqual("Al_Green", song.orig_artist)
+
+        self.assertEqual('call me', song.album_key)
+        self.assertEqual('Call_Me', song.orig_album)
+
+        self.assertEqual('02', song.track_key)
+        self.assertEqual('02', song.orig_track)
+
+        self.assertEqual("have you been making out ok", song.title_key)
+        self.assertEqual("Have_You_Been_Making_Out_O.K.", song.orig_title)
