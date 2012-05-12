@@ -183,3 +183,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("bessie smith", song.title_key)
         self.assertEqual("Bessie Smith", song.orig_title)
+
+    def test_parse_track_no_space_dash_title(self):
+        song_path = "/media/Backup2/high_quality_music/Done./Brian Eno/music for airports/04-2_2 (9.38).mp3"
+        song = Song(song_path, ['/media/Backup2/high_quality_music/Done.'])
+        self.assertEqual('brian eno', song.artist_key)
+        self.assertEqual('Brian Eno', song.orig_artist)
+
+        self.assertEqual('music for airports', song.album_key)
+        self.assertEqual('music for airports', song.orig_album)
+
+        self.assertEqual('04', song.track_key)
+        self.assertEqual('04', song.orig_track)
+
+        self.assertEqual("2 2 938", song.title_key)
+        self.assertEqual("2_2 (9.38)", song.orig_title)
