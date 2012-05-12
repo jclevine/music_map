@@ -9,7 +9,6 @@ import sqlite3
 import song as song_entity
 from music_map_db_handler import MusicMapDBHandler
 from music_map_exceptions import UnparseableSongError
-from util import string_utils
 
 
 class MusicMap(object):
@@ -44,9 +43,12 @@ class MusicMap(object):
         parser.add_option("-p", "--playlist", dest="playlist_loc",
                            help="Location of the playlist you want to make a " \
                                 "map for.", metavar="PLAYLIST")
-        parser.add_option("--music_root", dest="music_root",
-                          help="The full path to the root of the music tree " \
-                               "inside the playlist.", metavar="ROOT_PATH")
+        parser.add_option("--music_roots", dest="music_roots",
+                          help="The csv of full paths to the root of the music trees " \
+                               "inside the playlist.", metavar="ROOT_PATHS")
+#        parser.add_option("--music_root", dest="music_root",
+#                          help="The csv of full paths to the root of the music trees " \
+#                               "inside the playlist.", metavar="ROOT_PATHS")
         parser.add_option("-d", "--debug", action="store_true", dest="debug",
                            help="Set this flag if you want logging " \
                                 "to be set to debug.", default=False)
@@ -55,7 +57,7 @@ class MusicMap(object):
 
         options = parser.parse_args()[0]
         self._playlist_loc = os.path.abspath(options.playlist_loc)
-        self._music_root = options.music_root
+        self._music_root = options.music_roots
         self._db_loc = options.db_loc
         self._debug = options.debug
 
@@ -125,45 +127,6 @@ class MusicMap(object):
 
             self._db_handler.insert_song(song_obj, self._music_root)
         self._db_handler.close()
-
-    def get_by_track(self, artist, album, track):
-        ss = string_utils.sanitize_string
-        if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
-            raise KeyError("Unable to find artist {0}".format(artist))
-        albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
-
-        if ss(album) not in albums:
-            raise KeyError("Unable to find album {0} from artist {1}"
-                           .format(album, artist))
-        tracks = albums[ss(album)]
-
-        if ss(track) not in tracks:
-            raise KeyError("Unable to find track {track} from album {album} " \
-                           "from artist {artist}"
-                           .format(track=track,
-                                   album=album,
-                                   artist=artist))
-        return albums[ss(album)][ss(track)]
-
-    def get_by_title(self, artist, album, title):
-        ss = string_utils.sanitize_string
-        if ss(artist, remove_and=True, remove_the=True) not in self._music_map:
-            raise KeyError("Unable to find artist {0}".format(artist))
-        albums = self._music_map[ss(artist, remove_and=True, remove_the=True)]
-
-        if ss(album) not in albums:
-            raise KeyError("Unable to find album {0} from artist {1}"
-                           .format(album, artist))
-        tracks = albums[ss(album)]
-
-        for _, existing_title in tracks.items():
-            if ss(title) == existing_title:
-                return existing_title
-        raise KeyError("Unable to find title {title} from album {album} " \
-                       "from artist {artist}"
-                       .format(title=title,
-                               album=album,
-                               artist=artist))
 
     def __iter__(self):
         return self

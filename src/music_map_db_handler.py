@@ -24,15 +24,20 @@ class MusicMapDBHandler(object):
                               , ?
                               )
                    """
-            values = (song.artist,
-                      song.album,
-                      song.track,
-                      song.title)
+            values = (song.artist_key,
+                      song.album_key,
+                      song.track_key,
+                      song.title_key)
 
             # TODO: !2 Catch exception in case the insert fails. We'll want to
             # just keep going, if it's possible.
-            self._cursor.execute(query, values)
-            new_song_id = self._cursor.lastrowid
+            try:
+                self._cursor.execute(query, values)
+                new_song_id = self._cursor.lastrowid
+            except Exception as e:
+                msg = "Error inserting song ({0}) into DB: {1}".format(song, e)
+                logging.getLogger('unknown_error').error(msg)
+                return
         else:
             logging.getLogger('music_map').info("Song already in DB: {0}".format(song))
 
@@ -49,10 +54,10 @@ class MusicMapDBHandler(object):
                    AND s.track_key  = ?
                    AND s.title_key  = ?
                 """
-        values = (song.artist,
-                  song.album,
-                  song.track,
-                  song.title)
+        values = (song.artist_key,
+                  song.album_key,
+                  song.track_key,
+                  song.title_key)
         rs = self._cursor.execute(query, values)
         num_rows = rs.fetchone()[0]
         rs.close()
@@ -85,9 +90,7 @@ class MusicMapDBHandler(object):
                   song.orig_album,
                   song.orig_track,
                   song.orig_title,
-                  # Assuming we're parsing `find` output that was started
-                  # from /. Removing first character.
-                  song.original[1:])
+                  song.original)
 
         # TODO: !2 Catch exception in case the insert fails. We'll want to
         # just keep going, if it's possible.

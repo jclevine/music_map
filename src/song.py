@@ -13,21 +13,21 @@ class Song(object):
     # TODO: !2 Gotta be a better way to define these regexes. Use music_root(s), for instance.
     # TODO: !3 Name regexes better and give examples.
     # TODO: !2 Doublecheck order of regexes so that more specific ones come before the more general ones.
-    MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+    MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
                      'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
                      # Special for stupid Man or Astroman files.
-                     'MOAM_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
-                     'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
-                     'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_TRACK_SPACE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
+                     'MOAM_REGEX': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
+                     'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"/media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
+                     'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"/media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+                     'BACKUP_1_REGEX_TRACK_SPACE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) [^-]+- (.*)\.mp3",
                      # I think this one has to be last since it's the most relaxed regex
-                     'BACKUP_1_REGEX_TRACK_TITLE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
+                     'BACKUP_1_REGEX_TRACK_TITLE': r"/media/Backup1/([^/]+)/([^/]+)/(\d+) - (.*)\.mp3",
                      'BACKUP_2_REGEX': r"/media/Backup2/high_quality_music/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
                      'BACKUP_2_DONE_REGEX': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
                      'BACKUP_2_DONE_REGEX_ARTIST_ALBUM_TRACK_TITLE': r"/media/Backup2/high_quality_music/Done\./([^/]+)/([^/]+)/[^-]+-[^-]+- (\d+) - (.*)\.mp3",
@@ -81,32 +81,32 @@ class Song(object):
 
         # TODO: !3 Some utility to grab regex matches into a dictionary?
         self._orig_artist = matches.group(1)
-        self._artist = ss(self._orig_artist, remove_the=True, remove_and=True)
+        self._artist_key = ss(self._orig_artist, remove_the=True, remove_and=True)
 
         self._orig_album = matches.group(2)
-        self._album = ss(self._orig_album, remove_the=True, remove_and=True)
+        self._album_key = ss(self._orig_album, remove_the=True, remove_and=True)
 
         self._orig_track = matches.group(3)
-        self._track = ss(self._orig_track, remove_the=True, remove_and=True)
+        self._track_key = ss(self._orig_track, remove_the=True, remove_and=True)
 
         self._orig_title = matches.group(4)
-        self._title = ss(self._orig_title, remove_the=True, remove_and=True)
+        self._title_key = ss(self._orig_title, remove_the=True, remove_and=True)
 
     @property
-    def artist(self):
-        return self._artist
+    def artist_key(self):
+        return self._artist_key
 
     @property
-    def album(self):
-        return self._album
+    def album_key(self):
+        return self._album_key
 
     @property
-    def track(self):
-        return self._track
+    def track_key(self):
+        return self._track_key
 
     @property
-    def title(self):
-        return self._title
+    def title_key(self):
+        return self._title_key
 
     @property
     def orig_artist(self):
@@ -129,12 +129,8 @@ class Song(object):
         return self._original
 
     def __repr__(self):
-        return ("Keys: {artist} | {album} | {track} | {title} - {orig_artist} | Orig: {orig_album} | {orig_track} | {orig_title}"
-                .format(artist=self.artist,
-                        album=self.album,
-                        track=self.track,
-                        title=self.title,
-                        orig_artist=self.artist,
-                        orig_album=self.album,
-                        orig_track=self.track,
-                        orig_title=self.title))
+        return ("{artist} | {album} | {track} | {title}"
+                .format(artist=self.artist_key,
+                        album=self.album_key,
+                        track=self.track_key,
+                        title=self.title_key))
