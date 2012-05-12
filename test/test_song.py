@@ -199,7 +199,7 @@ class SongTest(unittest.TestCase):
         self.assertEqual("2 2 938", song.title_key)
         self.assertEqual("2_2 (9.38)", song.orig_title)
 
-    def test_parse_track_no_space_dash_title_change(self):
+    def test_parse_sonic_youth_track_no_space_dash_title_change(self):
         song_path = "/media/Backup2/high_quality_music/Sonic_Youth/Sister/05 Pipeline-Kill Time.mp3"
         song = Song(song_path, ['/media/Backup2/high_quality_music'])
         self.assertEqual('sonic youth', song.artist_key)
@@ -213,3 +213,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("pipeline kill time", song.title_key)
         self.assertEqual("Pipeline-Kill Time", song.orig_title)
+
+    def test_parse_bonnie_prince_billy_track_no_space_dash_title_change(self):
+        song_path = "/media/Backup2/high_quality_music/Done./Bonnie 'Prince' Billy/I See A Darkness/07 Madeleine-Mary.mp3"
+        song = Song(song_path, ['/media/Backup2/high_quality_music/Done.'])
+        self.assertEqual("bonnie 'prince' billy", song.artist_key)
+        self.assertEqual("Bonnie 'Prince' Billy", song.orig_artist)
+
+        self.assertEqual('i see a darkness', song.album_key)
+        self.assertEqual('I See A Darkness', song.orig_album)
+
+        self.assertEqual('07', song.track_key)
+        self.assertEqual('07', song.orig_track)
+
+        self.assertEqual("madeleine mary", song.title_key)
+        self.assertEqual("Madeleine-Mary", song.orig_title)
