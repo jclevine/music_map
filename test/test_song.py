@@ -153,3 +153,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("nadine is it you", song.title_key)
         self.assertEqual("Nadine (Is It You-)", song.orig_title)
+
+    def test_parse_track_space_dash_space_dashed_artist_space_dash_title(self):
+        song_path = "/media/Backup1/Various Artists/Critical Mass, Vol. 3/09 - -wumpscut- - Deliverance.mp3"
+        song = Song(song_path, ['/media/Backup1'])
+        self.assertEqual('various artists', song.artist_key)
+        self.assertEqual('Various Artists', song.orig_artist)
+
+        self.assertEqual('critical mass, vol 3', song.album_key)
+        self.assertEqual('Critical Mass, Vol. 3', song.orig_album)
+
+        self.assertEqual('09', song.track_key)
+        self.assertEqual('09', song.orig_track)
+
+        self.assertEqual("deliverance", song.title_key)
+        self.assertEqual("Deliverance", song.orig_title)
