@@ -46,15 +46,16 @@ class Song(object):
 #                     # //<microSD1>/music/Bright Eyes/Fevers & Mirrors/09 The Center of the World.mp3
 #                     'SANSA_CARD_MUSIC_WITHOUT_DASH': r"//<microSD1>/music/([^/]+)/([^/]+)/(\d+) (.*)\.mp3"
 #                     }
-    MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK - ARTIST - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK.TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_ONE_DASH - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+- (.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - ([^-]+)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK ARTIST - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) [^-]+- ([^.]+)\.mp3",
+    MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK - ARTIST - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK.TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_ONE_DASH - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+- (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - ([^-]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK ARTIST - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) [^-]+- ([^.]+)\.mp3",
                      'ROOT/ARTIST/ALBUM/(ARTIST) - TRACK - TITLE': r"{root}/([^/]+)/([^/]+)/\([^)]+\) - (\d+) - (.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_2_DASHES - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+-[^-]+- (.*)\.mp3"}
+                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_2_DASHES - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+-[^-]+- (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK TITLE_WITH_ONE_DASH': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+-[\S^.])\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table

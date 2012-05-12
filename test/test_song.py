@@ -151,5 +151,5 @@ class SongTest(unittest.TestCase):
         self.assertEqual('41', song.track_key)
         self.assertEqual('41', song.orig_track)
 
-        self.assertEqual("nadine (is it you )", song.title_key)
+        self.assertEqual("nadine is it you", song.title_key)
         self.assertEqual("Nadine (Is It You-)", song.orig_title)
