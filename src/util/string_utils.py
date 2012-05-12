@@ -1,4 +1,9 @@
 import unicodedata
+import re
+
+THE_WORD_REGEX = re.compile(r"\bthe\b")
+AND_WORD_REGEX = re.compile(r"\band\b")
+AMPERSAND_WORD_REGEX = re.compile(r"\b&\b")
 
 
 def sanitize_string(s, remove_the=False, remove_and=False):
@@ -9,15 +14,16 @@ def sanitize_string(s, remove_the=False, remove_and=False):
     s = s.replace("(", "")
     s = s.replace(")", "")
     if remove_the:
-        s = s.replace(" the", "")
-        s = s.replace("the ", "")
+        s = re.sub(THE_WORD_REGEX, "", s)
 
     if remove_and:
-        s = s.replace("& ", "")
-        s = s.replace(" &", "")
-        s = s.replace("and ", "")
-        s = s.replace(" and", "")
+        s = re.sub(AMPERSAND_WORD_REGEX, "", s)
+        s = re.sub(AND_WORD_REGEX, "", s)
+
+    # Get rid of double-spaces when an and or & is removed.
+    s = s.replace("  ", " ")
+
     # Change special characters into their somewhat normal equivalent
     s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('utf-8')
-    s = s.rstrip()
+    s = s.strip()
     return s
