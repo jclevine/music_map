@@ -198,3 +198,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("2 2 938", song.title_key)
         self.assertEqual("2_2 (9.38)", song.orig_title)
+
+    def test_parse_track_no_space_dash_title_change(self):
+        song_path = "/media/Backup2/high_quality_music/Sonic_Youth/Sister/05 Pipeline-Kill Time.mp3"
+        song = Song(song_path, ['/media/Backup2/high_quality_music'])
+        self.assertEqual('sonic youth', song.artist_key)
+        self.assertEqual('Sonic_Youth', song.orig_artist)
+
+        self.assertEqual('sister', song.album_key)
+        self.assertEqual('Sister', song.orig_album)
+
+        self.assertEqual('05', song.track_key)
+        self.assertEqual('05', song.orig_track)
+
+        self.assertEqual("pipeline kill time", song.title_key)
+        self.assertEqual("Pipeline-Kill Time", song.orig_title)

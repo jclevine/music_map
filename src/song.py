@@ -58,7 +58,9 @@ class Song(object):
                      'ROOT/ARTIST/ALBUM/TRACK TITLE_WITH_ONE_DASH': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+-[\S^.])\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK - DASHED_ARTIST - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - \S+ - (.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/ARTIST - ALBUM - TRACK - TITLE': r"{root}/([^/]+)/([^/]+)/[^-]+- [^-]+- (\d+) - (.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK-TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)-(.*)\.mp3"}
+                     'ROOT/ARTIST/ALBUM/TRACK-TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)-(.*)\.mp3",
+                     'ROOT/Sonic_Youth/ALBUM/TRACK TITLE_WITH_DASH': r"{root}/(Sonic_Youth)/([^/]+)/(\d+) ([^-]+-[^.]+)\.mp3"
+                     }
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
