@@ -13,14 +13,15 @@ class Song(object):
     # TODO: !2 Gotta be a better way to define these regexes
     # TODO: !3 Name regexes better.
     # TODO: !2 Doublecheck order of regexes so that more specific ones come before the more general ones.
-    MUSIC_REGEXES = {'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
+    MUSIC_REGEXES = {'SPECIFIC_BEETHOVEN_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+                     'OLD_IPOD_REGEX_WITH_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+-[^-]+- (.*)\.mp3",
                      'OLD_IPOD_REGEX_WITHOUT_ARTIST_IN_FILE': r"//music/([^/]+)/([^/]+)/(\d+)[^-]+- (.*)\.mp3",
                      # Special for stupid Man or Astroman files.
                      'MOAM_REGEX': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- Man or Astro-man- - (.*)\.mp3",
                      'BACKUP_1_REGEX_WITH_ARTIST_IN_FILE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_WITH_ARTIST_PARAENTHESIZED': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/[^-]+ - (\d+)[^-]+- (.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^-]+- [^-]+- (.*)\.mp3",
-                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)[^.]+\.(.*)\.mp3",
+                     'BACKUP_1_REGEX_IN_DONE_PERIOD_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE_PERIOD_SPACE_TRACK': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) (.*)\.mp3",
                      'BACKUP_1_REGEX_TRACK_UNDERSCORE': r"\./media/Backup1/([^/]+)/([^/]+)/(\d+)[^_]+_(.*)\.mp3",
                      'BACKUP_1_REGEX_IN_DONE_MIX_CD': r"\./media/Backup1/Done\./([^/]+)/([^/]+)/(\d+) - [^-]+- (.*)\.mp3",
