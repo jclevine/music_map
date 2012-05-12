@@ -51,7 +51,10 @@ class Song(object):
                      'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_ONE_DASH - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+- (.*)\.mp3",
                      'ROOT/ARTIST/ALBUM/TRACK TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) ([^-]+)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - ([^-]+)\.mp3"}
+                     'ROOT/ARTIST/ALBUM/TRACK - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) - ([^-]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK ARTIST - TITLE.mp3': r"{root}/([^/]+)/([^/]+)/(\d+) [^-]+- ([^.]+)\.mp3",
+                     'ROOT/ARTIST/ALBUM/(ARTIST) - TRACK - TITLE': r"{root}/([^/]+)/([^/]+)/\([^)]+\) - (\d+) - (.*)\.mp3",
+                     'ROOT/ARTIST/ALBUM/TRACK - ARTIST_WITH_2_DASHES - TITLE': r"{root}/([^/]+)/([^/]+)/(\d+) - [^-]+-[^-]+-[^-]+- (.*)\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table

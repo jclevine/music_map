@@ -93,3 +93,63 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual("ain't it strange", song.title_key)
         self.assertEqual("Ain't It Strange", song.orig_title)
+
+    def test_parse_track_space_artist_dash_title(self):
+        song_path = "/media/Backup1/Done./Andrea Chivers/Finally, Andrea made you a CD/18 Johnny Cash - Big River.mp3"
+        song = Song(song_path, ['/media/Backup1/Done.'])
+        self.assertEqual('andrea chivers', song.artist_key)
+        self.assertEqual('Andrea Chivers', song.orig_artist)
+
+        self.assertEqual('finally, andrea made you a cd', song.album_key)
+        self.assertEqual('Finally, Andrea made you a CD', song.orig_album)
+
+        self.assertEqual('18', song.track_key)
+        self.assertEqual('18', song.orig_track)
+
+        self.assertEqual("big river", song.title_key)
+        self.assertEqual("Big River", song.orig_title)
+
+    def test_parse_parentheses_artist_track_title(self):
+        song_path = "/media/Backup1/Done./Bob Dylan/Nashville Skyline/(Bob Dylan) - 07 - One More Night.mp3"
+        song = Song(song_path, ['/media/Backup1/Done.'])
+        self.assertEqual('bob dylan', song.artist_key)
+        self.assertEqual('Bob Dylan', song.orig_artist)
+
+        self.assertEqual('nashville skyline', song.album_key)
+        self.assertEqual('Nashville Skyline', song.orig_album)
+
+        self.assertEqual('07', song.track_key)
+        self.assertEqual('07', song.orig_track)
+
+        self.assertEqual("one more night", song.title_key)
+        self.assertEqual("One More Night", song.orig_title)
+
+    def test_parse_artist_with_2_dashes(self):
+        song_path = "/media/Backup1/Done./Buck-O-Nine/Songs in the Key of Bree/10 - Buck-O-Nine - She's Fat.mp3"
+        song = Song(song_path, ['/media/Backup1/Done.'])
+        self.assertEqual('buck o nine', song.artist_key)
+        self.assertEqual('Buck-O-Nine', song.orig_artist)
+
+        self.assertEqual('songs in key of bree', song.album_key)
+        self.assertEqual('Songs in the Key of Bree', song.orig_album)
+
+        self.assertEqual('10', song.track_key)
+        self.assertEqual('10', song.orig_track)
+
+        self.assertEqual("she's fat", song.title_key)
+        self.assertEqual("She's Fat", song.orig_title)
+
+    def test_parse_track_space_title_with_dash(self):
+        song_path = "/media/Backup1/Done./Chuck Berry/The Anthology/41 Nadine (Is It You-).mp3"
+        song = Song(song_path, ['/media/Backup1/Done.'])
+        self.assertEqual('chuck berry', song.artist_key)
+        self.assertEqual('Chuck Berry', song.orig_artist)
+
+        self.assertEqual('anthology', song.album_key)
+        self.assertEqual('The Anthology', song.orig_album)
+
+        self.assertEqual('41', song.track_key)
+        self.assertEqual('41', song.orig_track)
+
+        self.assertEqual("nadine (is it you )", song.title_key)
+        self.assertEqual("Nadine (Is It You-)", song.orig_title)
