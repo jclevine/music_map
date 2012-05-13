@@ -6,6 +6,7 @@ AND_WORD_REGEX = re.compile(r"\band\b")
 AMPERSAND_WORD_REGEX = re.compile(r"\s&\s")
 
 
+# TODO: !3 Move to util project.
 def sanitize_string(s, remove_the=False, remove_and=False):
     s = s.lower()
     s = s.replace("_", " ")
