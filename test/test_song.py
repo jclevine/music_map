@@ -48,3 +48,18 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual('terminal preppie', song.title_key)
         self.assertEqual('Terminal_Preppie', song.orig_title)
+
+    def test_unparseable_done_backup_1(self):
+        song_path = "./_Done_/Belle_and_Sebastian/The Boy with the Arab Strap/06_Belle & Sebastian_Seymour Stein.mp3"
+        song = Song(song_path, ['.', './_Done_'])
+        self.assertEqual('belle sebastian', song.artist_key)
+        self.assertEqual('Belle_and_Sebastian', song.orig_artist)
+
+        self.assertEqual('boy with arab strap', song.album_key)
+        self.assertEqual('The Boy with the Arab Strap', song.orig_album)
+
+        self.assertEqual('06', song.track_key)
+        self.assertEqual('06', song.orig_track)
+
+        self.assertEqual('seymour stein', song.title_key)
+        self.assertEqual('Seymour Stein', song.orig_title)
