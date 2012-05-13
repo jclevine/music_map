@@ -15,6 +15,8 @@ def sanitize_string(s, remove_the=False, remove_and=False):
     s = s.replace(")", "")
     s = s.replace("[", "")
     s = s.replace("]", "")
+    s = s.replace(",", "")
+    s = s.replace("+", "")
 
     if remove_the:
         s = re.sub(THE_WORD_REGEX, "", s)
