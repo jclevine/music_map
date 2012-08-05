@@ -3,7 +3,7 @@ import sqlite3
 
 # TODO: !3 Error handling.
 # TODO: !3 Use sqlite cursor.executescript
-if __name__ == "__main__":
+def create_dbs():
     conn = sqlite3.connect('music_map.sqlite')
 
     c = conn.cursor()
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     #===========================================================================
     c.execute("""CREATE TABLE music_rating (music_rating_id INTEGER PRIMARY KEY
                                           , song_id         INTEGER
-                                          , rating          INTEGER              -- 1 = never. 2 = sometimes. 3 = always.
+                                          , rating          INTEGER              -- 1 = never. 2 = sometimes. 3 = often. 4 = always.
                                           , FOREIGN KEY(song_id) REFERENCES song(song_id)
                                           , UNIQUE(song_id))
               """)
@@ -102,3 +102,7 @@ if __name__ == "__main__":
               """)
 
     c.close()
+
+
+if __name__ == "__main__":
+    create_dbs()
