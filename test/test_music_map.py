@@ -8,10 +8,8 @@ from util import sqlite_utils
 
 class TestMusicMap(unittest.TestCase):
 
-
     def setUp(self):
         music_map_db.create_dbs()
-
 
     def tearDown(self):
         os.remove('unknown_error.log')
