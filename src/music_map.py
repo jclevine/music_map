@@ -20,8 +20,17 @@ class MusicMap(object):
        location of the song.
     """
 
-    def __init__(self):
-        self._parse_options()
+    def __init__(self, *args):
+        if not args:
+            self._parse_options()
+        else:
+            # TODO: !3 Put this in a function.
+            kwargs = args[0]
+            self._playlist_loc = kwargs['playlist_loc']
+            self._music_roots = kwargs['music_roots']
+            self._db_loc = kwargs['db_loc']
+            self._debug = kwargs['debug']
+
         self._handle_logging(self._debug)
         self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
         # TODO: !3 Bring this sql stuff into its own function
@@ -37,6 +46,7 @@ class MusicMap(object):
         self._music_map = self._build_music_map()
         self._conn.commit()
         self._conn.close()
+        self._close_logging_handlers()
 
     def _parse_options(self):
         parser = OptionParser()
@@ -90,6 +100,14 @@ class MusicMap(object):
         unknown_error_handler = logging.FileHandler("unknown_error.log", mode="w")
         unknown_error_handler.setLevel(logging.DEBUG)
         self._unknown_error.addHandler(unknown_error_handler)
+
+    def _close_logging_handlers(self):
+        for handler in self._logger.handlers:
+            handler.close()
+        for handler in self._unparseable.handlers:
+            handler.close()
+        for handler in self._unknown_error.handlers:
+            handler.close()
 
     def _validate(self):
         try:

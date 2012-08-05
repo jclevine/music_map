@@ -60,7 +60,6 @@ class MusicMapDBHandler(object):
                   song.title_key)
         rs = self._cursor.execute(query, values)
         num_rows = rs.fetchone()[0]
-        rs.close()
         return num_rows == 1
 
     def _insert_into_music_map(self, new_song_id, song):
