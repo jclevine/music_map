@@ -105,7 +105,7 @@ class SanitizeStringTest(unittest.TestCase):
     #===========================================================================
     def test_sanitize_string_with_periods(self):
         string_with_periods = "Symphony No. 5 in C minor, Op. 67 Egmont Overture, Op.84"
-        expected_string = 'symphony no 5 in c minor, op 67 egmont overture, op84'
+        expected_string = 'symphony no 5 in c minor op 67 egmont overture op84'
         actual_string = sanitize_string(string_with_periods, remove_the=True, remove_and=True)
         self.assertEqual(expected_string, actual_string)
 
