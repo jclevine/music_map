@@ -42,6 +42,7 @@ class TestMusicMap(unittest.TestCase):
             self.assertEqual('31', row['track_key'])
             self.assertEqual('track title', row['title_key'])
         cursor.close()
+        conn.close()
 
 if __name__ == "__main__":
     unittest.main()

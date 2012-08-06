@@ -102,6 +102,7 @@ def create_dbs():
               """)
 
     c.close()
+    conn.close()
 
 
 if __name__ == "__main__":
