@@ -1,5 +1,10 @@
 import unittest
 from song import Song
+import mock
+from music_map_exceptions import UnparseableSongError
+import logging
+import os
+import test_utils
 
 
 class SongTest(unittest.TestCase):
@@ -63,3 +68,30 @@ class SongTest(unittest.TestCase):
 
         self.assertEqual('seymour stein', song.title_key)
         self.assertEqual('Seymour Stein', song.orig_title)
+
+    @mock.patch('re.match', mock.Mock(side_effect=Exception))
+    def test_unknown_error(self):
+        music_map_log = logging.getLogger("music_map")
+        music_map_handler = logging.FileHandler("music_map.log", mode="w")
+        music_map_log.addHandler(music_map_handler)
+
+        unknown_error_log = logging.getLogger("unknown_error")
+        unknown_error_handler = logging.FileHandler("unknown_error.log", mode="w")
+        unknown_error_log.addHandler(unknown_error_handler)
+
+        song_path = "./Elliott_Smith/Elliott_Smith/06_Elliott Smith_Coming up Roses.mp3"
+        self.assertRaises(UnparseableSongError, Song, song_path, ['.'])
+
+        log = open('unknown_error.log')
+        for line in log:
+            # It shoves a bunch of stacktrsce info. We're just interested in the unknown error part.
+            if line.startswith('Unknown'):
+                self.assertEquals("Unknown error on './Elliott_Smith/Elliott_Smith/06_Elliott Smith_Coming up Roses.mp3'. Continuing.",
+                                  line.strip())
+        log.close()
+
+        test_utils.close_all_handlers('music_map')
+        test_utils.close_all_handlers('unknown_error')
+        os.remove('music_map.log')
+        os.remove('unknown_error.log')
+

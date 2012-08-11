@@ -83,15 +83,8 @@ class Song(object):
                     if matches:
                         self._music_root = music_root
                         break
-                except AttributeError:  # When does this happen?
-                    logger = logging.getLogger("music_map")
-                    # logger.exception(ae)
-                    logger.debug("Error parsing info out of '{0}'. Continuing."
-                                       .format(song))
-                    logging.getLogger("unparseable").error(song)
-                    # TODO: !3 Manual way for a user to parse out the data?s
                 except Exception as e:
-                    logger = logging.getLogger("music_map")
+                    logger = logging.getLogger("unknown_error")
                     logger.exception(e)
                     logger.error("Unknown error on '{0}'. Continuing."
                                  .format(song))
