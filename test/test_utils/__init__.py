@@ -2,6 +2,7 @@ from music_map import MusicMap
 import os
 import sqlite3
 from util import sqlite_utils
+import logging
 
 
 TEST_PATH = os.path.abspath(r'c:\_src\music_map\test')
@@ -39,3 +40,6 @@ def insert_playlist_into_music_map(playlist_name,
         cursor.close()
         raise ioe
 
+def close_all_handlers(log_name):
+    for handler in logging.getLogger(log_name).handlers:
+        handler.close()

@@ -108,4 +108,4 @@ def create_dbs(db_loc):
 
 if __name__ == "__main__":
     # TODO: !2 Make sure this works
-    create_dbs(sys.argv[1])
+    create_dbs(sys.argv[1])  # pragma: no cover

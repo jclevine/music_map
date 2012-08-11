@@ -6,4 +6,4 @@ class UnparseableSongError(Exception):
         self._unparseable_song = unparseable_song
 
     def __str__(self):
-        return repr(self._unparseable_song)
+        return repr(self._unparseable_song)  # pragma: no cover
