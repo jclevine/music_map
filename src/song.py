@@ -63,8 +63,9 @@ class Song(object):
 #                     "ROOT/Bonnie 'Prince' Billy/ALBUM/TRACK TITLE_WITH_DASH": r"{root}/(Bonnie 'Prince' Billy)/([^/]+)/(\d+) ([^-]+-[^.]+)\.mp3"
 #                     }
 
-    MUSIC_REGEXES = {'ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
-                     'ROOT/ARTIST/ALBUM/TRACK.TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3"}
+    MUSIC_REGEXES = {'1-ROOT/ARTIST/ALBUM/TRACK_ARTIST_WITH_UNDERSCORES_TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)_\1_(.*)\.mp3",
+                     '2-ROOT/ARTIST/ALBUM/TRACK_ARTIST_TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)_[^_]+_(.*)\.mp3",
+                     '3-ROOT/ARTIST/ALBUM/TRACK.TITLE': r"{root}/([^/]+)/([^/]+)/(\d+)\.(.*)\.mp3"}
 
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
@@ -75,10 +76,10 @@ class Song(object):
         # TODO: !2 Refactor this possibly.
         # Try each regex with all the possible roots and see if there's a match.
         matches = False
-        for regex in Song.MUSIC_REGEXES.values():
+        for regex_key in sorted(Song.MUSIC_REGEXES.keys()):
             for music_root in music_roots:
                 try:
-                    matches = re.match(regex.format(root=music_root), song)
+                    matches = re.match(Song.MUSIC_REGEXES[regex_key].format(root=music_root), song)
                     if matches:
                         self._music_root = music_root
                         break
