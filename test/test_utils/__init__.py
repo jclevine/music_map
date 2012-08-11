@@ -1,5 +1,7 @@
 from music_map import MusicMap
 import os
+import sqlite3
+from util import sqlite_utils
 
 
 TEST_PATH = os.path.abspath(r'c:\_src\music_map\test')
@@ -16,4 +18,19 @@ def insert_playlist_into_music_map(playlist_name,
               'db_loc': db_loc,
               'debug': False}
     MusicMap(params)
+
+    conn = sqlite3.connect(TEST_DB_LOC)
+    cursor = conn.cursor()
+    query = """
+            SELECT artist_key
+                 , album_key
+                 , track_key
+                 , title_key
+              FROM song
+            """
+    rs = cursor.execute(query)
+    return {'conn': conn,
+            'cursor': cursor,
+            'rows':sqlite_utils.name_columns(rs)}
+
 
