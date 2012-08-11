@@ -7,14 +7,18 @@ from util import sqlite_utils
 
 
 class TestMusicMap(unittest.TestCase):
+    TEST_PATH = os.path.abspath(r'c:\_src\music_map\test')
+    TEST_DB = 'music_map.sqlite'
+    TEST_DB_LOC = os.path.join(TEST_PATH, TEST_DB)
+
 
     def setUp(self):
-        music_map_db.create_dbs()
+        music_map_db.create_dbs(self.TEST_DB_LOC)
 
     def tearDown(self):
         os.remove('unknown_error.log')
         os.remove('unparseable.log')
-        os.remove('music_map.sqlite')
+        os.remove(self.TEST_DB_LOC)
         os.remove('music_map.log')
 
     def test_simple(self):

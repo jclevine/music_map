@@ -1,10 +1,11 @@
 import sqlite3
+import sys
 
 
 # TODO: !3 Error handling.
 # TODO: !3 Use sqlite cursor.executescript
-def create_dbs():
-    conn = sqlite3.connect('music_map.sqlite')
+def create_dbs(db_loc):
+    conn = sqlite3.connect(db_loc)
 
     c = conn.cursor()
 
@@ -106,4 +107,5 @@ def create_dbs():
 
 
 if __name__ == "__main__":
-    create_dbs()
+    # TODO: !2 Make sure this works
+    create_dbs(sys.argv[1])
