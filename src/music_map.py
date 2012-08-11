@@ -22,7 +22,7 @@ class MusicMap(object):
 
     def __init__(self, *args):
         if not args:
-            self._parse_options()
+            self._parse_options()  # pragma: no cover
         else:
             # TODO: !3 Put this in a function.
             kwargs = args[0]
@@ -51,7 +51,7 @@ class MusicMap(object):
             self._conn.close()
             self._close_logging_handlers()
 
-    def _parse_options(self):
+    def _parse_options(self):  # pragma: no cover
         parser = OptionParser()
         parser.add_option("-p", "--playlist", dest="playlist_loc",
                            help="Location of the playlist you want to make a " \
@@ -84,7 +84,7 @@ class MusicMap(object):
 
         console_handler = logging.StreamHandler()
         if debug:
-            console_handler.setLevel(logging.DEBUG)
+            console_handler.setLevel(logging.DEBUG)  # pragma: no cover
         else:
             console_handler.setLevel(logging.INFO)
 
@@ -147,20 +147,10 @@ class MusicMap(object):
             self._db_handler.insert_song(song_obj)
         self._db_handler.close()
 
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        self._index = self._index + 1
-        if self._index >= len(self._all_tracks):
-            raise StopIteration
-        else:
-            return self._all_tracks[self._index]
-
 
 def main():
-    MusicMap()
+    MusicMap()  # pragma: no cover
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
