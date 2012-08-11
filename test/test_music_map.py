@@ -11,7 +11,6 @@ class TestMusicMap(unittest.TestCase):
     TEST_DB = 'music_map.sqlite'
     TEST_DB_LOC = os.path.join(TEST_PATH, TEST_DB)
 
-
     def setUp(self):
         music_map_db.create_dbs(self.TEST_DB_LOC)
 
@@ -51,7 +50,6 @@ class TestMusicMap(unittest.TestCase):
             cursor.close()
             conn.close()
 
-
     def test_underscore_in_artist_name(self):
         db_loc = self.TEST_DB_LOC
         simple_playlist_loc = os.path.join(self.TEST_PATH, 'data', 'test_artist_has_underscores.m3u8')
@@ -74,7 +72,7 @@ class TestMusicMap(unittest.TestCase):
         rows = sqlite_utils.name_columns(rs)
         try:
             for row in rows:
-                self.assertEqual('bens folds', row['artist_key'])
+                self.assertEqual('ben folds', row['artist_key'])
                 self.assertEqual('thealbum', row['album_key'])
                 self.assertEqual('31', row['track_key'])
                 self.assertEqual('track title', row['title_key'])
