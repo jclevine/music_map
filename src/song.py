@@ -9,6 +9,7 @@ from util import string_utils
 # TODO: !3 Move to common place for all projects to use.
 class Song(object):
 
+    # TODO: !3 Make constants for key names eg. track_key, album_key, etc.
     # TODO: !3 Use named subgroups [http://docs.python.org/library/re.html#re.MatchObject.groupdict]
     # TODO: !2 Gotta be a better way to define these regexes. Use music_root(s), for instance.
     # TODO: !3 Name regexes better and give examples.

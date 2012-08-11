@@ -15,7 +15,7 @@ def insert_playlist_into_music_map(playlist_name,
     db_loc = TEST_DB_LOC
     simple_playlist_loc = os.path.join(TEST_PATH, 'data', playlist_name)
     params = {'playlist_loc': simple_playlist_loc,
-              'music_roots': ['.'],
+              'music_roots': music_roots,
               'db_loc': db_loc,
               'debug': False}
 

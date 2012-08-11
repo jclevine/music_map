@@ -84,5 +84,39 @@ class TestMusicMap(unittest.TestCase):
             db_data['cursor'].close()
             db_data['conn'].close()
 
+    def test_2_types_of_roots(self):
+        db_data = test_utils.insert_playlist_into_music_map('two_roots.m3u8',
+                                                            music_roots=['.', './_Done_'])
+
+        christian_death_row = {'track_key': '01',
+                               'artist_key': 'christian death',
+                               'album_key': 'jesus points bones at you',
+                               'title_key': 'believers of unpure'}
+
+        beastie_boys_row = {'track_key': '15',
+                            'artist_key': 'beastie boys',
+                            'album_key': "paul's boutique",
+                            'title_key': 'b boy bouillabaisse'}
+        expected_rows = [christian_death_row,
+                         beastie_boys_row]
+
+        actual_rows = db_data['rows']
+        try:
+            self.assertEquals(len(expected_rows), len(actual_rows))
+
+            num_rows_correct = 0
+            for actual_row in actual_rows:
+                for expected_row in expected_rows:
+                    if (expected_row['track_key'] == actual_row['track_key'] and
+                        expected_row['artist_key'] == actual_row['artist_key'] and
+                        expected_row['album_key'] == actual_row['album_key'] and
+                        expected_row['title_key'] == actual_row['title_key']):
+                        num_rows_correct = num_rows_correct + 1
+            self.assertEquals(len(expected_rows), num_rows_correct)
+        finally:
+            db_data['cursor'].close()
+            db_data['conn'].close()
+
+
 if __name__ == "__main__":
     unittest.main()
