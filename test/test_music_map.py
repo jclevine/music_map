@@ -99,20 +99,30 @@ class TestMusicMap(unittest.TestCase):
                             'title_key': 'b boy bouillabaisse'}
         expected_rows = [christian_death_row,
                          beastie_boys_row]
+        num_expected = len(expected_rows)
 
         actual_rows = db_data['rows']
         try:
             self.assertEquals(len(expected_rows), len(actual_rows))
 
+            # Go through all the actual rows and make sure it's in the
+            # list of expected rows. If you find it, remove it from
+            # the list of expected rows. If you have all the expected rows
+            # by the end you will have no elements in the expected rows list.
+            # Also, we make sure that the number of times we got a correct row
+            # is the same as the original length of the expected rows list.
             num_rows_correct = 0
             for actual_row in actual_rows:
-                for expected_row in expected_rows:
+                for i, expected_row in enumerate(expected_rows):
                     if (expected_row['track_key'] == actual_row['track_key'] and
                         expected_row['artist_key'] == actual_row['artist_key'] and
                         expected_row['album_key'] == actual_row['album_key'] and
                         expected_row['title_key'] == actual_row['title_key']):
                         num_rows_correct = num_rows_correct + 1
-            self.assertEquals(len(expected_rows), num_rows_correct)
+                        del(expected_rows[i])
+            self.assertEquals(len(expected_rows), 0)
+            self.assertEquals(num_expected, num_rows_correct)
+
         finally:
             db_data['cursor'].close()
             db_data['conn'].close()
