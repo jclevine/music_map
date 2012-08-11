@@ -1,35 +1,25 @@
 import unittest
 import music_map_db
 import os
-from music_map import MusicMap
 import sqlite3
 from util import sqlite_utils
+import test_utils
 
 
 class TestMusicMap(unittest.TestCase):
-    TEST_PATH = os.path.abspath(r'c:\_src\music_map\test')
-    TEST_DB = 'music_map.sqlite'
-    TEST_DB_LOC = os.path.join(TEST_PATH, TEST_DB)
 
     def setUp(self):
-        music_map_db.create_dbs(self.TEST_DB_LOC)
+        music_map_db.create_dbs(test_utils.TEST_DB_LOC)
 
     def tearDown(self):
         os.remove('unknown_error.log')
         os.remove('unparseable.log')
         os.remove('music_map.log')
-        os.remove(self.TEST_DB_LOC)
+        os.remove(test_utils.TEST_DB_LOC)
 
     def test_simple(self):
-        db_loc = self.TEST_DB_LOC
-        simple_playlist_loc = os.path.join(self.TEST_PATH, 'data', 'test_simple_playlist.m3u8')
-        params = {'playlist_loc': simple_playlist_loc,
-                  'music_roots': ['.'],
-                  'db_loc': db_loc,
-                  'debug': False}
-        MusicMap(params)
-
-        conn = sqlite3.connect(db_loc)
+        test_utils.insert_playlist_into_music_map('test_simple_playlist.m3u8')
+        conn = sqlite3.connect(test_utils.TEST_DB_LOC)
         cursor = conn.cursor()
         query = """
                 SELECT artist_key
@@ -51,15 +41,8 @@ class TestMusicMap(unittest.TestCase):
             conn.close()
 
     def test_underscore_in_artist_name(self):
-        db_loc = self.TEST_DB_LOC
-        simple_playlist_loc = os.path.join(self.TEST_PATH, 'data', 'test_artist_has_underscores.m3u8')
-        params = {'playlist_loc': simple_playlist_loc,
-                  'music_roots': ['.'],
-                  'db_loc': db_loc,
-                  'debug': False}
-        MusicMap(params)
-
-        conn = sqlite3.connect(db_loc)
+        test_utils.insert_playlist_into_music_map('test_artist_has_underscores.m3u8')
+        conn = sqlite3.connect(test_utils.TEST_DB_LOC)
         cursor = conn.cursor()
         query = """
                 SELECT artist_key
