@@ -31,22 +31,25 @@ class MusicMap(object):
             self._db_loc = kwargs['db_loc']
             self._debug = kwargs['debug']
 
-        self._handle_logging(self._debug)
-        self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
-        # TODO: !3 Bring this sql stuff into its own function
-        self._conn = sqlite3.connect(self._db_loc)
-        self._cursor = self._conn.cursor()
-        self._cursor.execute('PRAGMA synchronous=OFF')
-        self._cursor.execute('PRAGMA count_changes=OFF')
-        self._cursor.execute('PRAGMA journal_mode=MEMORY')
-        self._cursor.execute('PRAGMA temp_store=MEMORY')
-        self._db_handler = MusicMapDBHandler(self._cursor)
-        self._validate()
-        self._song_set = self._build_song_set()
-        self._music_map = self._build_music_map()
-        self._conn.commit()
-        self._conn.close()
-        self._close_logging_handlers()
+        try:
+            self._handle_logging(self._debug)
+            self._logger.debug("Playlist location: {0}".format(self._playlist_loc))
+            # TODO: !3 Bring this sql stuff into its own function
+            self._conn = sqlite3.connect(self._db_loc)
+            self._cursor = self._conn.cursor()
+            self._cursor.execute('PRAGMA synchronous=OFF')
+            self._cursor.execute('PRAGMA count_changes=OFF')
+            self._cursor.execute('PRAGMA journal_mode=MEMORY')
+            self._cursor.execute('PRAGMA temp_store=MEMORY')
+            self._db_handler = MusicMapDBHandler(self._cursor)
+            self._validate()
+            self._song_set = self._build_song_set()
+            self._music_map = self._build_music_map()
+            self._conn.commit()
+        finally:
+            self._conn.rollback()
+            self._conn.close()
+            self._close_logging_handlers()
 
     def _parse_options(self):
         parser = OptionParser()

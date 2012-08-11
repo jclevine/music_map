@@ -16,10 +16,10 @@ class TestMusicMap(unittest.TestCase):
         music_map_db.create_dbs(self.TEST_DB_LOC)
 
     def tearDown(self):
-        # os.remove('unknown_error.log')
-        # os.remove('unparseable.log')
+        os.remove('unknown_error.log')
+        os.remove('unparseable.log')
+        os.remove('music_map.log')
         os.remove(self.TEST_DB_LOC)
-        # os.remove('music_map.log')
 
     def test_simple(self):
         db_loc = self.TEST_DB_LOC
@@ -41,13 +41,15 @@ class TestMusicMap(unittest.TestCase):
                 """
         rs = cursor.execute(query)
         rows = sqlite_utils.name_columns(rs)
-        for row in rows:
-            self.assertEqual('theartist', row['artist_key'])
-            self.assertEqual('thealbum', row['album_key'])
-            self.assertEqual('31', row['track_key'])
-            self.assertEqual('track title', row['title_key'])
-        cursor.close()
-        conn.close()
+        try:
+            for row in rows:
+                self.assertEqual('theartist', row['artist_key'])
+                self.assertEqual('thealbum', row['album_key'])
+                self.assertEqual('31', row['track_key'])
+                self.assertEqual('track title', row['title_key'])
+        finally:
+            cursor.close()
+            conn.close()
 
 
     def test_underscore_in_artist_name(self):
@@ -70,14 +72,15 @@ class TestMusicMap(unittest.TestCase):
                 """
         rs = cursor.execute(query)
         rows = sqlite_utils.name_columns(rs)
-        for row in rows:
-            self.assertEqual('ben folds', row['artist_key'])
-            self.assertEqual('thealbum', row['album_key'])
-            self.assertEqual('31', row['track_key'])
-            self.assertEqual('track title', row['title_key'])
-        cursor.close()
-        conn.close()
-
+        try:
+            for row in rows:
+                self.assertEqual('bens folds', row['artist_key'])
+                self.assertEqual('thealbum', row['album_key'])
+                self.assertEqual('31', row['track_key'])
+                self.assertEqual('track title', row['title_key'])
+        finally:
+            cursor.close()
+            conn.close()
 
 
 if __name__ == "__main__":
