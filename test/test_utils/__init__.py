@@ -23,21 +23,38 @@ def insert_playlist_into_music_map(playlist_name,
         MusicMap(params)
 
         conn = sqlite3.connect(TEST_DB_LOC)
-        cursor = conn.cursor()
-        query = """
+        song_cursor = conn.cursor()
+        song_query = """
                 SELECT artist_key
                      , album_key
                      , track_key
                      , title_key
                   FROM song
                 """
-        rs = cursor.execute(query)
+        song_rs = song_cursor.execute(song_query)
+
+        mm_cursor = conn.cursor()
+        mm_query = """
+                SELECT song_id
+                     , location
+                     , artist
+                     , album
+                     , track
+                     , title
+                     , full_path
+                  FROM music_map
+                  """
+        mm_rs = mm_cursor.execute(mm_query)
+
         return {'conn': conn,
-                'cursor': cursor,
-                'rows':sqlite_utils.name_columns(rs)}
+                'song_cursor': song_cursor,
+                'song_rows':sqlite_utils.name_columns(song_rs),
+                'mm_cursor': mm_cursor,
+                'mm_rows': sqlite_utils.name_columns(mm_rs)}
     except IOError as ioe:
+        song_cursor.close()
+        mm_cursor.close()
         conn.close()
-        cursor.close()
         raise ioe
 
 def close_all_handlers(log_name):

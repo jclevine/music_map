@@ -17,7 +17,7 @@ class TestMusicMap(unittest.TestCase):
 
     def test_simple(self):
         db_data = test_utils.insert_playlist_into_music_map('test_simple_playlist.m3u8')
-        rows = db_data['rows']
+        rows = db_data['song_rows']
         try:
             for row in rows:
                 self.assertEqual('theartist', row['artist_key'])
@@ -25,12 +25,13 @@ class TestMusicMap(unittest.TestCase):
                 self.assertEqual('31', row['track_key'])
                 self.assertEqual('track title', row['title_key'])
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
     def test_underscore_in_artist_name(self):
         db_data = test_utils.insert_playlist_into_music_map('test_artist_has_underscores.m3u8')
-        rows = db_data['rows']
+        rows = db_data['song_rows']
         try:
             for row in rows:
                 self.assertEqual('ben folds', row['artist_key'])
@@ -38,13 +39,14 @@ class TestMusicMap(unittest.TestCase):
                 self.assertEqual('31', row['track_key'])
                 self.assertEqual('track title', row['title_key'])
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
 
     def test_underscore_in_artist_name_but_not_in_song(self):
         db_data = test_utils.insert_playlist_into_music_map('test_artist_has_underscore_but_not_song.m3u8')
-        rows = db_data['rows']
+        rows = db_data['song_rows']
         try:
             for row in rows:
                 self.assertEqual('ben folds', row['artist_key'])
@@ -52,13 +54,14 @@ class TestMusicMap(unittest.TestCase):
                 self.assertEqual('31', row['track_key'])
                 self.assertEqual('track title', row['title_key'])
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
 
     def test_no_underscore_in_artist_name_but_in_song(self):
         db_data = test_utils.insert_playlist_into_music_map('test_artist_has_underscore_but_not_song.m3u8')
-        rows = db_data['rows']
+        rows = db_data['song_rows']
         try:
             for row in rows:
                 self.assertEqual('ben folds', row['artist_key'])
@@ -66,7 +69,8 @@ class TestMusicMap(unittest.TestCase):
                 self.assertEqual('31', row['track_key'])
                 self.assertEqual('track title', row['title_key'])
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
 
@@ -81,7 +85,8 @@ class TestMusicMap(unittest.TestCase):
                 unparseable_song = log.readline().strip()
                 self.assertEqual('./Ben_Folds/TheAlbum/not track_Ben_Folds_The Track Title.mp3', unparseable_song)
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
     def test_2_types_of_roots(self):
@@ -101,7 +106,7 @@ class TestMusicMap(unittest.TestCase):
                          beastie_boys_row]
         num_expected = len(expected_rows)
 
-        actual_rows = db_data['rows']
+        actual_rows = db_data['song_rows']
         try:
             self.assertEquals(len(expected_rows), len(actual_rows))
 
@@ -124,9 +129,48 @@ class TestMusicMap(unittest.TestCase):
             self.assertEquals(num_expected, num_rows_correct)
 
         finally:
-            db_data['cursor'].close()
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
             db_data['conn'].close()
 
+    def test_all_music_1(self):
+        db_data = test_utils.insert_playlist_into_music_map('backup_1_all_music.m3u8',
+                                                            music_roots=['.', './_Done_'])
+        actual_song_rows = db_data['song_rows']
+        actual_mm_rows = db_data['mm_rows']
+        try:
+            self.assertEquals(6467, len(actual_song_rows))
+            self.assertEquals(6467, len(actual_mm_rows))
+        finally:
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
+            db_data['conn'].close()
+
+    def test_all_music_2(self):
+        db_data = test_utils.insert_playlist_into_music_map('backup_2_all_music.m3u8',
+                                                            music_roots=['.', './_Done_'])
+        actual_song_rows = db_data['song_rows']
+        actual_mm_rows = db_data['mm_rows']
+        try:
+            self.assertEquals(3644, len(actual_song_rows))
+            self.assertEquals(3644, len(actual_mm_rows))
+        finally:
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
+            db_data['conn'].close()
+
+    def test_unicode_madness(self):
+        db_data = test_utils.insert_playlist_into_music_map('unicode_madness.m3u8',
+                                                            music_roots=['.', './_Done_'])
+        actual_rows = db_data['song_rows']
+        try:
+            for row in actual_rows:
+                print(row)
+        finally:
+            # TODO !3 Move this all into a common function.
+            db_data['song_cursor'].close()
+            db_data['mm_cursor'].close()
+            db_data['conn'].close()
 
 if __name__ == "__main__":
     unittest.main()

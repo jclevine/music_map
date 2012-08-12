@@ -63,37 +63,52 @@ class MusicMapDBHandler(object):
         return num_rows == 1
 
     def _insert_into_music_map(self, new_song_id, song):
-        query = """
-                INSERT INTO music_map
-                          ( song_id
-                          , location
-                          , artist
-                          , album
-                          , track
-                          , title
-                          , full_path
-                          )
-                     VALUES
-                          ( ?
-                          , ?
-                          , ?
-                          , ?
-                          , ?
-                          , ?
-                          , ?
-                          )
-                """
-        values = (new_song_id,
-                  song.music_root,
-                  song.orig_artist,
-                  song.orig_album,
-                  song.orig_track,
-                  song.orig_title,
-                  song.original)
+        try:
+            query = """
+                    INSERT INTO music_map
+                              ( song_id
+                              , location
+                              , artist
+                              , album
+                              , track
+                              , title
+                              , full_path
+                              )
+                         VALUES
+                              ( ?
+                              , ?
+                              , ?
+                              , ?
+                              , ?
+                              , ?
+                              , ?
+                              )
+                    """
+            values = (new_song_id,
+                      unicode(song.music_root),
+                      unicode(song.orig_artist),
+                      unicode(song.orig_album),
+                      unicode(song.orig_track),
+                      unicode(song.orig_title),
+                      unicode(song.original))
 
-        # TODO: !2 Catch exception in case the insert fails. We'll want to
-        # just keep going, if it's possible.
-        self._cursor.execute(query, values)
+
+            # TODO: !2 Catch exception in case the insert fails. We'll want to
+            # just keep going, if it's possible.
+            self._cursor.execute(query, values)
+        except Exception as e:
+            try:
+                values = (new_song_id,
+                          song.music_root.decode('latin-1'),
+                          song.orig_artist.decode('latin-1'),
+                          song.orig_album.decode('latin-1'),
+                          song.orig_track.decode('latin-1'),
+                          song.orig_title.decode('latin-1'),
+                          song.original.decode('latin-1'))
+                self._cursor.execute(query, values)
+            except Exception as e:
+                logging.getLogger('unknown_error').exception(e)
+                logging.getLogger('unknown_error').error('Error inserting song into music_map table: {0}'.format(song))
 
     def close(self):
         self._cursor.close()
