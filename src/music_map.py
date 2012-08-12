@@ -74,6 +74,7 @@ class MusicMap(object):
 
     # TODO: !3 Logging ini file?
     # TODO: !3 Define where the logs go. Location is sort of bad now.
+    # TODO: !3 Rename all logs to state that it's music map's not, say, music_tagger's
     def _handle_logging(self, debug):
         self._logger = logging.getLogger("music_map")
 
@@ -104,6 +105,7 @@ class MusicMap(object):
         unknown_error_handler.setLevel(logging.DEBUG)
         self._unknown_error.addHandler(unknown_error_handler)
 
+    # TODO: !3 Move to common util location
     def _close_logging_handlers(self):
         for handler in self._logger.handlers:
             handler.close()

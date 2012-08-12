@@ -71,6 +71,11 @@ class Song(object):
     # TODO: !3 Throw more specific exceptions
     # TODO: !2 Have to_map function that will prepare song for insertion into table
     def __init__(self, song, music_roots):
+
+        # Miserable hack to ignore the BOM. I think these are the only possible starting characters.
+        if song[0] != '.' and song[0] != '/':
+            song = song[3:]
+
         self._original = song
 
         # TODO: !2 Yet again, handle logging/exceptions better.
