@@ -110,6 +110,7 @@ class TestMusicMap(unittest.TestCase):
         try:
             self.assertEquals(len(expected_rows), len(actual_rows))
 
+            # TODO: !2 Move this into a util function.
             # Go through all the actual rows and make sure it's in the
             # list of expected rows. If you find it, remove it from
             # the list of expected rows. If you have all the expected rows
@@ -159,6 +160,7 @@ class TestMusicMap(unittest.TestCase):
             db_data['mm_cursor'].close()
             db_data['conn'].close()
 
+    # TODO: !2 Move all test code into the try block so if there is any failure, everything gets closed.
     def test_unicode_madness(self):
         db_data = test_utils.insert_playlist_into_music_map('unicode_madness.m3u8',
                                                             music_roots=['.', './_Done_'])
@@ -171,6 +173,7 @@ class TestMusicMap(unittest.TestCase):
             db_data['song_cursor'].close()
             db_data['mm_cursor'].close()
             db_data['conn'].close()
+
 
 if __name__ == "__main__":
     unittest.main()

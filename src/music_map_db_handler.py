@@ -106,9 +106,9 @@ class MusicMapDBHandler(object):
                           song.orig_title.decode('latin-1'),
                           song.original.decode('latin-1'))
                 self._cursor.execute(query, values)
-            except Exception as e:
-                logging.getLogger('unknown_error').exception(e)
-                logging.getLogger('unknown_error').error('Error inserting song into music_map table: {0}'.format(song))
+            except Exception as e:  # pragma: no cover
+                logging.getLogger('unknown_error').exception(e)  # pragma: no cover
+                logging.getLogger('unknown_error').error('Error inserting song into music_map table: {0}'.format(song))  # pragma: no cover
 
     def close(self):
         self._cursor.close()
