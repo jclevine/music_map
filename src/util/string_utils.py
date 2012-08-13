@@ -27,7 +27,9 @@ def sanitize_string(s, remove_the=False, remove_and=False):
         s = re.sub(AMPERSAND_WORD_REGEX, " ", s)
         s = re.sub(AND_WORD_REGEX, "", s)
 
-    # Change special characters into their somewhat normal equivalent
+    # First, make sure the string is in utf8 format.
+    # Then, change special characters into their somewhat normal equivalent
+    s = s.decode('utf8')
     s = unidecode(s)
     s = s.strip()
 

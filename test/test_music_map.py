@@ -162,12 +162,12 @@ class TestMusicMap(unittest.TestCase):
 
     # TODO: !2 Move all test code into the try block so if there is any failure, everything gets closed.
     def test_unicode_madness(self):
-        db_data = test_utils.insert_playlist_into_music_map('unicode_madness.m3u8',
+        db_data = test_utils.insert_playlist_into_music_map('annoying_mum.m3u8',
                                                             music_roots=['.', './_Done_'])
         actual_rows = db_data['song_rows']
         try:
             for row in actual_rows:
-                print(row)
+                self.assertEquals('mum', row['artist_key'])
         finally:
             # TODO !3 Move this all into a common function.
             db_data['song_cursor'].close()
