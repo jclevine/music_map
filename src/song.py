@@ -158,6 +158,12 @@ class Song(object):
     def music_root(self):
         return self._music_root
 
+    # TODO: !2 Test this method
+    @staticmethod
+    def song_with_root(song_entity, root):
+        original_path = song_entity.original
+        return original_path.replace(song_entity.music_root, root)
+
     def __repr__(self):
         return ("{artist} | {album} | {track} | {title}"
                 .format(artist=self.artist_key,

@@ -95,3 +95,11 @@ class SongTest(unittest.TestCase):
         os.remove('music_map.log')
         os.remove('unknown_error.log')
 
+    def test_song_with_root_simple(self):
+        song_path = "./_Done_/Belle_and_Sebastian/The Boy with the Arab Strap/06_Belle & Sebastian_Seymour Stein.mp3"
+        simple_song = Song(song_path, ['.', './_Done_'])
+        song_path_with_new_root = Song.song_with_root(simple_song, '/<microSD>/MUSIC')
+        expected_song_path = '/<microSD>/MUSIC/Belle_and_Sebastian/The Boy with the Arab Strap/06_Belle & Sebastian_Seymour Stein.mp3'
+        self.assertEquals(expected_song_path, song_path_with_new_root)
+
+
